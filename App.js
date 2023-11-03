@@ -1,20 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Load from "./component/Load";
+import Login from "./component/Login";
+import KhamPha from "./component/KhamPha";
+import ThuVien from "./component/ThuVien";
+
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Load" screenOptions={{headerShown:false}}>
+        <Stack.Screen name="Load" component={Load} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="KhamPha" component={TabNavigator} options={{ title: 'Home' }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+function TabNavigator() {
+  return (
+    <Tab.Navigator initialRouteName='Khám phá' screenOptions={{headerShown:false}}>
+      
+         <Tab.Screen name="Thư viện" component={ThuVien} />
+         <Tab.Screen name="Khám phá" component={KhamPha} />
+
+    
+    
+     
+    </Tab.Navigator>
+  );
+}
