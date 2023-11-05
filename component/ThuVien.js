@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Image, TextInput, TouchableOpacity, ScrollView ,FlatList} from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 export default function App({ navigation }) {
@@ -31,8 +31,20 @@ export default function App({ navigation }) {
     },
 
   ]
+  const [selectedButton, setSelectedButton] = useState('Playlist');
+  const [showAdditionalButtons, setShowAdditionalButtons] = useState(true);
 
+  const handleButtonPress = (buttonName) => {
+    setSelectedButton(buttonName);
+    // Khi bạn chọn nút "Playlist," bạn hiển thị các nút bổ sung
+    if (buttonName === 'Playlist') {
+      setShowAdditionalButtons(true);
+    } else {
+      setShowAdditionalButtons(false);
+    }
+  };
   return (
+    <ScrollView>
     <View style={styles.container}>
 
       <View style={styles.header}>
@@ -82,8 +94,7 @@ export default function App({ navigation }) {
 
       <View style={{margin:20}}>
         <Text style={{ fontSize: 21, fontWeight: '700' }}>Nghe gần đây </Text>
-
-
+        {/* Nhạc nghe gần đây */}
         <FlatList
         horizontal ={true}
         data={dataMusic}
@@ -97,11 +108,60 @@ export default function App({ navigation }) {
             <Text >{item.name}</Text>
           </TouchableOpacity>
 
-        )}
-      />
+        )} />
       </View>
+            {/* Playlist / album */}
+           
 
+            <View style={{flexDirection:'row',margin:20}}>
+              <TouchableOpacity style={[styles.buttonPlaylist,selectedButton==='Playlist' && styles.selectedButton]}
+              onPress={()=> handleButtonPress('Playlist')}>
+                <Text style={{fontSize:18}}>Playlist</Text>
+              </TouchableOpacity>
+
+                <TouchableOpacity style={[styles.buttonPlaylist,selectedButton==='Album' && styles.selectedButton]}
+              onPress={()=> handleButtonPress('Album')}>
+                <Text style={{fontSize:18}}>Album</Text>
+              </TouchableOpacity>
+            </View>
+
+
+          {/* Nếu đã chọn "Playlist," hiển thị các nút bổ sung */}
+      {showAdditionalButtons==true && (
+        <View>
+          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={styles.buttonList}>
+              <Icon name="plus" size={20} />
+            </View>
+            <Text style={{ fontSize: 14 }}>Tạo playlist</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={styles.buttonList}>
+              <Icon name="music" size={20} />
+            </View>
+            <Text style={{ fontSize: 14 }}>Những bài nhạc hay của PMQ</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+      
+      {showAdditionalButtons==false && (
+        <View style={{justifyContent:'center',alignItems:'center'}}>
+              <View style={{justifyContent:'center',alignItems:'center',
+              borderWidth:1,borderColor:'gray',width:40,height:40,borderRadius:10}}> 
+              <Icon name='music' size={20}/></View>     
+              <Text style={{fontSize:16,fontWeight:'700',marginTop:10}}>Bạn chưa có album nào</Text>
+              <Text style={{fontSize:14,marginTop:10}}>Tìm album bạn yêu thích để thêm</Text>
+              <Text style={{fontSize:14,}}>vào thư viện</Text>
+        </View>
+      )}
+          
+
+         
+
+            
     </View>
+    </ScrollView>
   );
 }
 
@@ -198,5 +258,24 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: '800',
     fontSize: 12
+  },
+  selectedButton: {
+    borderBottomColor: '#AB43AD',
+    borderBottomWidth: 1,
+  },
+  selectedText: {
+  
+    fontWeight: 'bold', // Làm cho chữ đậm khi nút được chọn
+  },
+  buttonPlaylist:{
+    borderBottomWidth: 1,
+    borderColor: 'transparent', // Loại bỏ viền ban đầu
+    width:70,
+    height:30,
+    marginRight:10
+  },
+  buttonList:{
+    backgroundColor:'#C0BBBB',width:50,height:40,borderRadius:10,
+            justifyContent:'center',alignItems:'center',margin:10
   }
 });
