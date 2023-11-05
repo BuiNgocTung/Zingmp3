@@ -17,7 +17,7 @@ export default function Login({navigation}) {
              <Text style={{color:'white',paddingLeft:170,fontSize:20}}>Quên mật khẩu?</Text>
             </View>
 
-            <TouchableOpacity style={styles.customButton} onPress={()=>{navigation.navigate('User')}}>
+            <TouchableOpacity style={styles.customButton} onPress={()=>{navigation.navigate('KhamPha')}}>
                  <Text style={{color:'white',fontSize:20}}>Đăng nhập</Text>
              </TouchableOpacity>
 
@@ -35,7 +35,6 @@ export default function Login({navigation}) {
 
              </Text>
 
-            {/* <Button title='Dang nhap' onPress={()=>{navigation.navigate("KhamPha")}}></Button> */}
     </View>
   );
 }

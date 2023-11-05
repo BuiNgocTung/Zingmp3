@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {  Image} from 'react-native';
+import { StyleSheet, Image} from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -11,6 +11,10 @@ import SignUp from "./component/SignUp";
 import KhamPha from "./component/KhamPha";
 import ThuVien from "./component/ThuVien";
 import User from "./component/User";
+import Setting from "./component/Setting";
+
+import  Icon from 'react-native-vector-icons/FontAwesome'
+import { View } from 'react-native-web';
 
 
 const Tab = createBottomTabNavigator();
@@ -19,12 +23,13 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer >
       <Stack.Navigator initialRouteName="Load" screenOptions={{headerShown:false,}}>
         <Stack.Screen name="Load" component={Load} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="User" component={User} />
+        <Stack.Screen name="Setting" component={Setting} />
 
         <Stack.Screen name="KhamPha" component={TabNavigator} options={{ title: 'Home' }} />
       </Stack.Navigator>
@@ -35,17 +40,38 @@ export default function App() {
 function TabNavigator() {
 
   return (
-    <Tab.Navigator initialRouteName='Thư viện' 
-    screenOptions={{headerShown:false}}>
-      
-         <Tab.Screen name="Thư viện" component={ThuVien} 
-         options={{  tabBarIcon:()=><Image source={require('./icon/tab/music_video.png')}
-          style={{width:24,height:24}} resizeMode='stretch'/> }  } />
-         <Tab.Screen name="Khám phá" component={KhamPha} />
+    <Tab.Navigator
+      initialRouteName='Thư viện'
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
 
-    
-    
-     
+          if (route.name === 'Thư viện') {
+            iconName = 'home';
+          } else if (route.name === 'Khám Phá') {
+            iconName = 'music';
+          }
+          return (
+            <View style={styles.iconContainer}>
+              <Icon name={iconName} size={size} color={color} style={styles.icon} />
+            </View>
+          );
+        }, headerShown: false,
+      })}
+         >
+      <Tab.Screen name="Thư viện" component={ThuVien} />
+      <Tab.Screen name="Khám Phá" component={KhamPha} />
     </Tab.Navigator>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  iconContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  icon: {
+    textAlign: 'center',
+  },
+});

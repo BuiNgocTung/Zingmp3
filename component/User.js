@@ -8,15 +8,16 @@ export default function App({ navigation }) {
         <View style={styles.container}>
 
             <View style={styles.header}>
-                <Icon name={'arrow-left'} size={20} />
-
-
+            <TouchableOpacity onPress={()=> {navigation.navigate("Thư viện")}}>
+            <Icon name={'arrow-left'} size={20} />
+            </TouchableOpacity>
+               
 
 
                 <Text style={{ fontSize: 20, fontWeight: '700' }}>Tài khoản cá nhân </Text>
 
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=> {navigation.navigate("Setting")}}>
                     <Icon name='gear' size={20} />
                 </TouchableOpacity>
 
@@ -65,7 +66,8 @@ export default function App({ navigation }) {
 
                 <View style={{ borderBlockColor: 'gray', borderBottomWidth: 2, width: 350, marginTop: 20 }}></View>
 
-                <TouchableOpacity style={{ flexDirection: 'row', marginTop: 20, marginLeft: 10 }}>
+                <TouchableOpacity style={{ flexDirection: 'row', marginTop: 20, marginLeft: 10 }}
+                onPress={()=> {navigation.navigate("Login")}}>
                     <Icon name='sign-out' size={20} color={'gray'} />
                     <Text style={{ fontSize: 16, paddingLeft: 30 }}>Đăng xuất tài khoản</Text>
                 </TouchableOpacity>
