@@ -259,10 +259,10 @@ const styles = StyleSheet.create({
   recentMusicItem: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: -10,
+  
   },
   recentMusicImage: {
-    margin: 10,
+    marginRight:20,
     width: 160,
     height: 165,
     borderRadius: 30,

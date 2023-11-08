@@ -19,6 +19,7 @@ export default function App({ navigation }) {
 
                 <TouchableOpacity onPress={()=> {navigation.navigate("Setting")}}>
                     <Icon name='gear' size={20} />
+                   
                 </TouchableOpacity>
 
 
