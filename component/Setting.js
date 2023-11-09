@@ -8,7 +8,7 @@ export default function App({ navigation }) {
         <View style={styles.container}>
 
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => { navigation.navigate("Thư viện") }}>
+                <TouchableOpacity onPress={() => { navigation.navigate("Tab") }}>
                     <Icon name={'arrow-left'} size={20} />
                 </TouchableOpacity>
 

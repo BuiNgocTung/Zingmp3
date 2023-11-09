@@ -12,6 +12,7 @@ import KhamPha from "./component/KhamPha";
 import ThuVien from "./component/ThuVien";
 import User from "./component/User";
 import Setting from "./component/Setting";
+import Search from "./component/Search";
 
 import  Icon from 'react-native-vector-icons/FontAwesome'
 import { View } from 'react-native-web';
@@ -24,14 +25,15 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer >
-      <Stack.Navigator initialRouteName="Load" screenOptions={{headerShown:false,}}>
+      <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown:false,}}>
+      <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Load" component={Load} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="User" component={User} />
         <Stack.Screen name="Setting" component={Setting} />
 
-        <Stack.Screen name="KhamPha" component={TabNavigator} options={{ title: 'Home' }} />
+        <Stack.Screen name="Tab" component={TabNavigator} options={{ title: 'Home' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -47,9 +49,9 @@ function TabNavigator() {
           let iconName;
 
           if (route.name === 'Thư viện') {
-            iconName = 'home';
-          } else if (route.name === 'Khám Phá') {
             iconName = 'music';
+          } else if (route.name === 'Khám Phá') {
+            iconName = 'search-plus';
           }
           return (
             <View style={styles.iconContainer}>

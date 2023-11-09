@@ -17,7 +17,7 @@ export default function Login({navigation}) {
              <Text style={{color:'white',paddingLeft:170,fontSize:20}}>Quên mật khẩu?</Text>
             </View>
 
-            <TouchableOpacity style={styles.customButton} onPress={()=>{navigation.navigate('KhamPha')}}>
+            <TouchableOpacity style={styles.customButton} onPress={()=>{navigation.navigate('Tab')}}>
                  <Text style={{color:'white',fontSize:20}}>Đăng nhập</Text>
              </TouchableOpacity>
 
