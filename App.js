@@ -34,7 +34,7 @@ export default function App() {
         <Stack.Screen name="Load" component={Load} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name="User" component={User} />
+        
         <Stack.Screen name="Setting" component={Setting} />
 
         <Stack.Screen name="Tab" component={TabNavigator} options={{ title: 'Home' }} />

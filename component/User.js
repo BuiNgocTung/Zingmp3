@@ -8,12 +8,7 @@ export default function App({ navigation }) {
         <View style={styles.container}>
 
             <View style={styles.header}>
-            <TouchableOpacity onPress={()=> {navigation.navigate("Thư viện")}}>
-            <Icon name={'arrow-left'} size={20} />
-            </TouchableOpacity>
-               
-
-
+           
                 <Text style={{ fontSize: 20, fontWeight: '700' }}>Tài khoản cá nhân </Text>
 
 
