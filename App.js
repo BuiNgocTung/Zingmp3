@@ -28,7 +28,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer >
-      <Stack.Navigator initialRouteName="Tab" screenOptions={{ headerShown: false, }}>
+      <Stack.Navigator initialRouteName="Load" screenOptions={{ headerShown: false, }}>
      
         <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Load" component={Load} />
@@ -47,7 +47,7 @@ function TabNavigator() {
 
   return (
     <Tab.Navigator
-      initialRouteName='Radio'
+      initialRouteName='Khám Phá'
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -63,6 +63,9 @@ function TabNavigator() {
           else if (route.name === 'Radio') {
             iconName = "radio";
           }
+          else if (route.name === 'User') {
+            iconName = "person";
+          }
           return (
             <View style={styles.iconContainer}>
               <Icon name={iconName} size={size} color={color} style={styles.icon} />
@@ -75,6 +78,7 @@ function TabNavigator() {
       <Tab.Screen name="Khám Phá" component={KhamPha} />
       <Tab.Screen name="#zingchart" component={ZingChart} />
       <Tab.Screen name="Radio" component={Radio} />
+      <Stack.Screen name="User" component={User} />
     </Tab.Navigator>
   );
 };
