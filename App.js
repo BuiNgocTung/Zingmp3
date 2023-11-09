@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Image} from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -13,8 +13,11 @@ import ThuVien from "./component/ThuVien";
 import User from "./component/User";
 import Setting from "./component/Setting";
 import Search from "./component/Search";
+import ZingChart from "./component/ZingChart";
+import Radio from "./component/Radio";
 
-import  Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/MaterialIcons';
+// import Icon from 'react-native-vector-icons/FontAwesome';
 import { View } from 'react-native-web';
 
 
@@ -25,8 +28,9 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer >
-      <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown:false,}}>
-      <Stack.Screen name="Search" component={Search} />
+      <Stack.Navigator initialRouteName="Tab" screenOptions={{ headerShown: false, }}>
+     
+        <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Load" component={Load} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="SignUp" component={SignUp} />
@@ -43,15 +47,21 @@ function TabNavigator() {
 
   return (
     <Tab.Navigator
-      initialRouteName='Thư viện'
+      initialRouteName='Radio'
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
           if (route.name === 'Thư viện') {
-            iconName = 'music';
+            iconName = 'library-music';
           } else if (route.name === 'Khám Phá') {
-            iconName = 'search-plus';
+            iconName = 'pageview';
+          }
+          else if (route.name === '#zingchart') {
+            iconName = 'stacked-line-chart';
+          }
+          else if (route.name === 'Radio') {
+            iconName = "radio";
           }
           return (
             <View style={styles.iconContainer}>
@@ -60,9 +70,11 @@ function TabNavigator() {
           );
         }, headerShown: false,
       })}
-         >
+    >
       <Tab.Screen name="Thư viện" component={ThuVien} />
       <Tab.Screen name="Khám Phá" component={KhamPha} />
+      <Tab.Screen name="#zingchart" component={ZingChart} />
+      <Tab.Screen name="Radio" component={Radio} />
     </Tab.Navigator>
   );
 };

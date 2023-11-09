@@ -41,7 +41,7 @@ export default function App({ navigation }) {
           </TouchableOpacity>
 
           <View style={styles.searchBar}>
-            
+              
             <TouchableOpacity   onPress={() => { navigation.navigate("Search") }}>
             <Icon name='search' style={styles.searchIcon} size={20} />
             <TextInput placeholder='Tìm kiếm bài hát, nghệ sĩ...' style={styles.input}  editable={false}/>

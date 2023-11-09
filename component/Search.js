@@ -64,7 +64,6 @@ export default function App({ navigation }) {
                 </View>
 
 
-
                 {/*List danh sach tim ra*/}
                 {filteredMusic.length > 0 && (
                     <View style={{marginTop:50}}>
