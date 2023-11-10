@@ -30,11 +30,14 @@ export default function Login({navigation}) {
              </View>
 
              <Text style={{fontSize:15,color:'white',paddingTop:20}}>Bạn chưa là thành viên?
-             <TouchableOpacity onPress={()=> {navigation.navigate("SignUp")}}> <Text style={ { color: '#4790FD' ,fontSize:15}}> Hãy đăng ký</Text>
-             </TouchableOpacity>
-
+            
+             
              </Text>
+             <TouchableOpacity onPress={()=> {navigation.navigate("SignUp")}}> 
+             <Text style={ { color: '#4790FD' ,fontSize:15}}> Hãy đăng ký</Text>
 
+             </TouchableOpacity>
+           
     </View>
   );
 }

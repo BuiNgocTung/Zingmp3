@@ -71,7 +71,7 @@ export default function App({ navigation }) {
 
         {/* Phần nút "Bài hát yêu thích" và "Đã tải" */}
         <View style={styles.upgradeContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>{navigation.navigate("BHYeuThich")}}>
             <View style={styles.upgradeItem}>
               <Image source={require('../icon/library/favorite.png')} style={styles.favoriteIcon} />
               <Text style={styles.upgradeText}>Bài hát yêu thích</Text>
