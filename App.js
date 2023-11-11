@@ -15,6 +15,7 @@ import Setting from "./component/Setting";
 import Search from "./component/Search";
 import ZingChart from "./component/ZingChart";
 import Radio from "./component/Radio";
+import BHYeuThich from "./component/BHYeuThich";
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 // import Icon from 'react-native-vector-icons/FontAwesome';
@@ -29,7 +30,7 @@ export default function App() {
   return (
     <NavigationContainer >
       <Stack.Navigator initialRouteName="Load" screenOptions={{ headerShown: false, }}>
-     
+      <Stack.Screen name="BHYeuThich" component={BHYeuThich} />
         <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Load" component={Load} />
         <Stack.Screen name="Login" component={Login} />
@@ -47,7 +48,7 @@ function TabNavigator() {
 
   return (
     <Tab.Navigator
-      initialRouteName='Khám Phá'
+      initialRouteName='#zingchart'
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;

@@ -58,11 +58,11 @@ export default function App({ navigation }) {
             <TextInput placeholder='Tìm kiếm bài hát, nghệ sĩ...' style={styles.input}  editable={false}/>
             </TouchableOpacity>
             
-            <Icon name='microphone' style={styles.microphoneIcon} size={20} />
+            <Icon name='mic' style={styles.microphoneIcon} size={20} />
           </View>
 
           <TouchableOpacity onPress={() => { navigation.navigate("Setting") }}>
-            <Icon name='gear' size={20} />
+            <Icon name='settings' size={20} />
           </TouchableOpacity>
         </View>
 
@@ -71,7 +71,7 @@ export default function App({ navigation }) {
 
         {/* Phần nút "Bài hát yêu thích" và "Đã tải" */}
         <View style={styles.upgradeContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>{navigation.navigate("BHYeuThich")}}>
             <View style={styles.upgradeItem}>
               <Image source={require('../icon/library/favorite.png')} style={styles.favoriteIcon} />
               <Text style={styles.upgradeText}>Bài hát yêu thích</Text>

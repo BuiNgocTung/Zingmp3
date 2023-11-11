@@ -28,13 +28,18 @@ export default function Login({navigation}) {
              <Image source={require('../icon/login/icons8_apple_logo_50px_1 1.png')} style={styles.icon}/>
              <Image source={require('../icon/login/icons8_facebook_48px_1 1.png')} style={styles.icon}/>
              </View>
+          <View style={{flexDirection:'row',marginTop:20}}>
+          <Text style={{fontSize:15,color:'white'}}>Bạn chưa là thành viên?
+            
+             
+            </Text>
+            <TouchableOpacity onPress={()=> {navigation.navigate("SignUp")}}> 
+            <Text style={ { color: '#4790FD' ,fontSize:15}}> Hãy đăng ký</Text>
 
-             <Text style={{fontSize:15,color:'white',paddingTop:20}}>Bạn chưa là thành viên?
-             <TouchableOpacity onPress={()=> {navigation.navigate("SignUp")}}> <Text style={ { color: '#4790FD' ,fontSize:15}}> Hãy đăng ký</Text>
-             </TouchableOpacity>
-
-             </Text>
-
+            </TouchableOpacity>
+          </View>
+            
+           
     </View>
   );
 }

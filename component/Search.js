@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import React, { useState } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import unorm from 'unorm';
 export default function App({ navigation }) {
     const recentMusicData = [
@@ -55,7 +57,7 @@ export default function App({ navigation }) {
                         <Icon name='search' style={styles.searchIcon} size={20} />
                         <TextInput placeholder='Tìm kiếm bài hát, nghệ sĩ...' style={styles.input}
                             onChangeText={(text) => { handleSearchName(text) }}   />
-                        <Icon name='microphone' style={styles.microphoneIcon} size={20} />
+                        <Icon name='mic' style={styles.microphoneIcon} size={20} />
                     </View>
 
                     <TouchableOpacity onPress={() => { navigation.navigate("Tab") }}>
@@ -83,7 +85,7 @@ export default function App({ navigation }) {
                                             </View>
                                         </View>
 
-                                        <Icon name='play' size={20} color={'gray'} />
+                                        <Icon name='play-arrow' size={25} color={'gray'} />
                                     </View>
 
                                 </TouchableOpacity>
@@ -127,7 +129,7 @@ const styles = StyleSheet.create({
     microphoneIcon: {
         color: '#8E86A8',
         position: 'absolute',
-        marginLeft: 280,
+        marginLeft: 265,
         marginTop: 10,
     },
     input: {
