@@ -48,7 +48,7 @@ function TabNavigator() {
 
   return (
     <Tab.Navigator
-      initialRouteName='Khám Phá'
+      initialRouteName='#zingchart'
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;

@@ -58,11 +58,11 @@ export default function App({ navigation }) {
             <TextInput placeholder='Tìm kiếm bài hát, nghệ sĩ...' style={styles.input}  editable={false}/>
             </TouchableOpacity>
             
-            <Icon name='microphone' style={styles.microphoneIcon} size={20} />
+            <Icon name='mic' style={styles.microphoneIcon} size={20} />
           </View>
 
           <TouchableOpacity onPress={() => { navigation.navigate("Setting") }}>
-            <Icon name='gear' size={20} />
+            <Icon name='settings' size={20} />
           </TouchableOpacity>
         </View>
 
