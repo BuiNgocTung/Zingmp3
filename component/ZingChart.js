@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, TextInput, FlatList, Text,ScrollView } from 'react-native';  // Import Image
+import { View, StyleSheet, Image, TouchableOpacity, TextInput, FlatList, Text, ScrollView } from 'react-native';  // Import Image
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Chart from '../component/Chart'
@@ -87,81 +87,84 @@ export default function ZingChart({ navigation }) {
 
     }
     ,
- 
+
   ];
 
   return (
     <ScrollView>
-    <View style={styles.container}>
+      <View style={styles.container}>
 
 
-      <View style={styles.header}>
-        {/* Thanh header */}
+        <View style={styles.header}>
+          {/* Thanh header */}
 
 
-        <TouchableOpacity onPress={() => { navigation.navigate("User") }}>
-          <Image source={require('../img/user/tung.jpg')} style={styles.userImage} />
-        </TouchableOpacity>
-
-        <View style={styles.searchBar}>
-
-          <TouchableOpacity onPress={() => { navigation.navigate("Search") }}>
-            <Icon name='search' style={styles.searchIcon} size={20} />
-            <TextInput placeholder='Tìm kiếm bài hát, nghệ sĩ...' style={styles.input} editable={false} />
+          <TouchableOpacity onPress={() => { navigation.navigate("User") }}>
+            <Image source={require('../img/user/tung.jpg')} style={styles.userImage} />
           </TouchableOpacity>
 
-          <Icon name='mic' style={styles.microphoneIcon} size={20} />
+          <View style={styles.searchBar}>
+
+            <TouchableOpacity onPress={() => { navigation.navigate("Search") }}>
+              <Icon name='search' style={styles.searchIcon} size={20} />
+              <TextInput placeholder='Tìm kiếm bài hát, nghệ sĩ...' style={styles.input} editable={false} />
+            </TouchableOpacity>
+
+            <Icon name='mic' style={styles.microphoneIcon} size={20} />
+          </View>
+
+          <TouchableOpacity onPress={() => { navigation.navigate("Setting") }}>
+            <Icon name='settings' size={20} />
+          </TouchableOpacity>
         </View>
+        {/*----- */}
+        <Text style={styles.gradientText}>#Zingchar</Text>
+        {/* Đồ thị */}
+        <View style={{
+          // alignItems: 'center',
+          // justifyContent: 'center'
+        }}>
+          <Chart />
+        </View>
+        {/* list music */}
+        <View style={{
+          backgroundImage: 'linear-gradient(180deg, #61D7D7 0%, rgba(25, 46, 232, 0.00) 100%)', borderRadius: 20,
+          width: '100%', marginTop: 20
+        }}>
+          <View style={{ marginTop: 5 }}>
+            <FlatList
+              data={recentMusicData}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <View style={{ justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center', }}>
+                  <Text style={{ fontWeight: '700', fontSize: 23, color: 'white' }}>{item.id + 1}</Text>
+                  <TouchableOpacity style={styles.recentMusicItem}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
 
-        <TouchableOpacity onPress={() => { navigation.navigate("Setting") }}>
-          <Icon name='settings' size={20} />
-        </TouchableOpacity>
-      </View>
-      {/*----- */}
-      <Text style={styles.gradientText}>#Zingchar</Text>
-      {/* Đồ thị */}
-      <View style={{ alignItems: 'center' }}>
-        <Chart />
-      </View>
-      {/* list music */}
-      <View style={{
-        backgroundImage: 'linear-gradient(180deg, #61D7D7 0%, rgba(25, 46, 232, 0.00) 100%)', borderRadius: 20,
-        width: '100%', marginTop: 20
-      }}>
-        <View style={{ marginTop: 5 }}>
-          <FlatList
-            data={recentMusicData}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <View style={{justifyContent:'space-around',flexDirection:'row' ,alignItems: 'center',}}>
-              <Text style={{ fontWeight: '700', fontSize: 23, color: 'white' }}>{item.id+1}</Text>
-                <TouchableOpacity style={styles.recentMusicItem}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <Image source={item.image} style={styles.recentMusicImage} />
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Image source={item.image} style={styles.recentMusicImage} />
 
-                      <View>
-                        <Text style={{ fontSize: 13, fontWeight: '700' }}>{item.name}</Text>
-                        <Text>{item.tg}</Text>
+                        <View>
+                          <Text style={{ fontSize: 13, fontWeight: '700' }}>{item.name}</Text>
+                          <Text>{item.tg}</Text>
+                        </View>
                       </View>
                     </View>
-                  </View>
 
-                </TouchableOpacity>
-                <TouchableOpacity>
-                <Icon name='more-horiz' size={25} color={'gray'} />
-                </TouchableOpacity>
-              
-              </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Icon name='more-horiz' size={25} color={'gray'} />
+                  </TouchableOpacity>
 
-            )} />
+                </View>
+
+              )} />
+          </View>
+
         </View>
 
       </View>
- 
-    </View>
     </ScrollView>
   );
 };
@@ -224,7 +227,7 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   gradientText: {
-    margin:20,
+    margin: 20,
     fontSize: 25,
     fontWeight: '700',
     color: 'red',
