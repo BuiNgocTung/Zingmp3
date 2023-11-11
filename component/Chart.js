@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, TextInput,FlatList } from 'react-native';  
+import { View, StyleSheet, Image, TouchableOpacity, TextInput, FlatList } from 'react-native';
 
 import Svg, { Path, Text, Circle, Line } from 'react-native-svg';
 
@@ -11,11 +11,11 @@ const imageHeight = 50;
 const dataSong1 = [60, 60, 60, 60, 90, 80, 80, 120, 60, 60, 60, 50];
 const dataSong2 = [30, 30, 40, 20, 40, 40, 60, 70, 40, 40, 40, 30];
 const dataSong3 = [10, 20, 30, 10, 30, 30, 30, 30, 10, 20, 20, 10];
-const labels = [1,2,3,4,5,6,7,8,9,10,11,12];
+const labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const maxY = Math.max(...dataSong1, ...dataSong2, ...dataSong3);
 const maxX = dataSong1.length - 1;
 const deviceWidth = 350;
-const scaleX = deviceWidth / (maxX + 1);
+const scaleX = deviceWidth / (maxX);
 const scaleY = 100 / maxY;
 
 const smoothPath = (points) => {
@@ -66,17 +66,12 @@ const ChartComponent = () => {
   }, []);
 
 
-  
+
 
   return (
     <View style={styles.container}>
-
-
-     
-
       {/* Đồ thị */}
       <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 30 }}>
-
         <Svg height="150" width={`${deviceWidth}px`} onTouchMove={(e) => handleTouchMove(e, setHighlightedIndex)}>
           {/* Data Lines */}
           {renderDataLine(dataSong1, 0, highlightedIndex === 0, currentColorIndex, 'dataSong1')}
@@ -98,7 +93,7 @@ const ChartComponent = () => {
           <Line
             x1="0"
             y1="90%"
-            x2={`${335}px`}
+            x2={`${deviceWidth}px`}  /* Điều chỉnh chiều dài của X-axis */
             y2="90%"
             stroke="white"
             strokeWidth="2"
@@ -107,17 +102,17 @@ const ChartComponent = () => {
           {labels.map((label, index) => (
             <Text
               key={`label-x-${index}`}
-              x={(index + 0.5) * scaleX}
-              y="100%"  // Increase this value to move the labels below the chart
+              x={(index+0.1) * 31}
+              y="100%"
               fill="white"
               fontSize="12"
-              textAnchor="end"
+              textAnchor="middle"  // Thay đổi textAnchor để giữ vị trí giữa của label
             >
               {label}
             </Text>
           ))}
           {/* Labels for Y-axis */}
-          {Array.from({ length: maxY + 1 }, (_, i) => (
+          {/* {Array.from({ length: maxY + 1 }, (_, i) => (
             <Text
               key={`label-y-${i}`}
               x="-5%"
@@ -128,13 +123,9 @@ const ChartComponent = () => {
             >
               {i * (maxY / maxY)}
             </Text>
-          ))}
+          ))} */}
         </Svg>
       </View>
-    
-
-      
-
     </View>
   );
 };
@@ -157,7 +148,7 @@ const renderDataLine = (data, index, isHighlighted, currentColorIndex, dataName)
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeMiterlimit="10"
+        strokeMiterlimit="100"
         opacity={isHighlighted ? 1 : 0.5}
       />
       {isHighlighted &&
@@ -203,7 +194,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 
-    // backgroundImage: 'linear-gradient(180deg, #6367BE 0%, rgba(255, 255, 255, 0.00) 100%)'
+
   },
 
 });
