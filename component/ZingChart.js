@@ -231,11 +231,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: '700',
     color: 'red',
-    textShadowColor: 'linear-gradient(#e66465, #9198e5)',
+    textShadowColor: 'red',
     textShadowOffset: { width: 0, height: 4 },
     textShadowRadius: 4,
     letterSpacing: 1.25,
-    fontFamily: 'Roboto',
+  
     // Add any other styles you need for your text
   },
 });

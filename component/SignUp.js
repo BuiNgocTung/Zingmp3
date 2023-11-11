@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
   },
   input: {
 
-    width: '325px',
-    height: '65px',
+    width: 325,
+    height: 65,
     marginBottom: 30,
     backgroundColor: '#DBC3DB',
     flexShrink: 0,
@@ -58,8 +58,8 @@ const styles = StyleSheet.create({
 },
 customButton: {
     backgroundImage: 'linear-gradient(90deg, #D479E3 0%, #785584 100%)',
-    width: '325px',
-    height: '50px',
+    width: 325,
+    height: 50,
     flexShrink: 0,
     alignItems: 'center',
     justifyContent: 'center',

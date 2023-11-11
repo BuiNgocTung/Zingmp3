@@ -24,9 +24,9 @@ export default function Login({navigation}) {
              <Text style={{color:'white',fontSize:15}}>Tiếp tục với</Text>
 
              <View style={{flexDirection:'row',marginTop:20}}>
-             <Image source={require('../icon/login/icons8_google_48px 1.png')} style={styles.icon}/>
-             <Image source={require('../icon/login/icons8_apple_logo_50px_1 1.png')} style={styles.icon}/>
-             <Image source={require('../icon/login/icons8_facebook_48px_1 1.png')} style={styles.icon}/>
+             <Image source={require('../icon/login/google.png')} style={styles.icon}/>
+             <Image source={require('../icon/login/apple.png')} style={styles.icon}/>
+             <Image source={require('../icon/login/facebook.png')} style={styles.icon}/>
              </View>
           <View style={{flexDirection:'row',marginTop:20}}>
           <Text style={{fontSize:15,color:'white'}}>Bạn chưa là thành viên?
@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
   },
   input: {
 
-    width: '325px',
-    height: '65px',
+    width: 325,
+    height: 65,
     marginBottom: 30,
     backgroundColor: '#DBC3DB',
     flexShrink: 0,
@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
 },
 customButton: {
     backgroundImage: 'linear-gradient(90deg, #D479E3 0%, #785584 100%)',
-    width: '325px',
-    height: '50px',
+    width: 325,
+    height: 50,
     flexShrink: 0,
     alignItems: 'center',
     justifyContent: 'center',

@@ -104,7 +104,7 @@ export default function App({ navigation }) {
 
                 {selectedRadio && (
                     <View style={{ alignItems: 'center', marginTop: 20 }}>
-                        <Image source={selectedRadio.image} style={{ width: '390px', height: '360px' }} />
+                        <Image source={selectedRadio.image} style={{ width:390, height: 360 }} />
                     </View>
                 )}
 
