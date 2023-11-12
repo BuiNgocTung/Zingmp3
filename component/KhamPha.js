@@ -75,7 +75,7 @@ export default function App({ navigation }) {
             <Text style={{ fontSize: 12 }}>Thể loại</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.menuItem}>
+          <TouchableOpacity style={styles.menuItem} onPress={() => { navigation.navigate("#Zingchart") }}>
             <View style={styles.upgradeItem}>
               <Icon name='star' />
             </View>
