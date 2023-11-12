@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Image,TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -17,6 +17,7 @@ import ZingChart from "./component/ZingChart";
 import Radio from "./component/Radio";
 import BHYeuThich from "./component/BHYeuThich";
 import Category from "./component/Category";
+import MusicByCategory from "./component/MusicByCategory";
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 // import Icon from 'react-native-vector-icons/FontAwesome';
@@ -30,7 +31,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer >
-      <Stack.Navigator initialRouteName="Tab" screenOptions={{ headerShown: false, }}>
+      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false, }}>
 
         <Stack.Screen name="Load" component={Load} />
         <Stack.Screen name="Login" component={Login} />
@@ -58,10 +59,10 @@ function TabThuVien() {
 function TabKhamPha() {
   return (
     <Stack.Navigator initialRouteName="KhamPha" screenOptions={{ headerShown: false, }}>
-
-
       <Stack.Screen name="KhamPha" component={KhamPha} />
       <Stack.Screen name="Category" component={Category} />
+
+      <Stack.Screen name="MusicByCategory" component={MusicByCategory} />
       <Stack.Screen name="Search" component={Search} />
       <Stack.Screen name="Setting" component={Setting} />
     </Stack.Navigator>
@@ -75,7 +76,7 @@ function TabZingChart() {
 
 
       <Stack.Screen name="#Zingchart" component={ZingChart} />
-      <Stack.Screen name="Category" component={Category} />
+     
       <Stack.Screen name="Search" component={Search} />
       <Stack.Screen name="Setting" component={Setting} />
     </Stack.Navigator>
