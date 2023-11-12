@@ -3,7 +3,9 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ScrollView,
 import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function App({ navigation }) {
+export default function App({ navigation,route }) {
+    const { user } = route.params || {};
+    const userImage = user && user.img ? { uri: user.img } : require('../img/user/user.png');
     const [selectedRadio, setSelectedRadio] = useState(null);
     const dataRadio = [
         {
@@ -82,7 +84,7 @@ export default function App({ navigation }) {
                 <View style={styles.header}>
 
                     <TouchableOpacity onPress={() => { navigation.navigate("User") }}>
-                        <Image source={require('../img/user/tung.jpg')} style={styles.userImage} />
+                        <Image source={userImage} style={styles.userImage} />
 
                     </TouchableOpacity>
 

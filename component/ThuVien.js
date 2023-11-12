@@ -5,8 +5,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function ThuVien({ navigation, route }) {
   const { user } = route.params || {};
-  const userImage = user && user.img ? user.img : require('../img/user/tung.jpg');
+  const userImage = user && user.img ? { uri: user.img } : require('../img/user/user.png');
 
+  
   const recentMusicData = [
     {
       id: 0,
