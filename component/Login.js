@@ -1,23 +1,61 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View ,Button,Image,TextInput,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View ,Image,TextInput,TouchableOpacity} from 'react-native';
+import React, { useState } from 'react';
 
 export default function Login({navigation}) {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      // Gửi yêu cầu để lấy danh sách người dùng từ API
+      const response = await fetch('http://localhost:3001/users');
+      const data = await response.json();
+      const loggedInUser = data.find(user => user.username === username && user.password === password);
+      if (loggedInUser) {
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'Tab',
+              state: {
+                routes: [
+                  { name: 'KhamPha', params: { user: loggedInUser, data: data } },
+                  { name: 'ThuVien', params: { user: loggedInUser, data: data } },
+                  { name: 'User', params: { user: loggedInUser, data: data } },
+                  { name: 'Radio', params: { user: loggedInUser, data: data } },
+                ],
+              },
+            },
+          ],
+        });
+      } else {
+        alert('Tên đăng nhập hoặc mật khẩu không đúng');
+      }
+    } catch (error) {
+      console.error('Lỗi khi gửi yêu cầu đăng nhập', error);
+    }
+  };
+  
+  
+
+
   return (
     <View style={styles.container}>
 
-        
         <View style={{flexDirection:'row',marginTop:50}}>
         <Image source={require('../icon/load/name.png')} style={{width:227,height:67}}/>
         <Text style = {{fontSize:45 ,color:'#FFF',marginLeft:-90}}>mp3</Text>
         </View>
 
             <View style={{paddingTop:50}}>
-            <TextInput placeholder='Tên đăng nhập' style={styles.input}  placeholderTextColor={'#978B8B'} ></TextInput>
-             <TextInput placeholder='Mật khẩu ' style={styles.input}  placeholderTextColor={'#978B8B'} ></TextInput>
+            <TextInput placeholder='Tên đăng nhập' style={styles.input}  placeholderTextColor={'#978B8B'}value={username}
+              onChangeText={(text) => setUsername(text)}></TextInput>
+             <TextInput placeholder='Mật khẩu ' style={styles.input}  placeholderTextColor={'#978B8B'} secureTextEntry={true} 
+             value={password} onChangeText={(text) => setPassword(text)} ></TextInput>
              <Text style={{color:'white',paddingLeft:170,fontSize:20}}>Quên mật khẩu?</Text>
             </View>
 
-            <TouchableOpacity style={styles.customButton} onPress={()=>{navigation.navigate('Tab')}}>
+            <TouchableOpacity style={styles.customButton} onPress={handleLogin}>
                  <Text style={{color:'white',fontSize:20}}>Đăng nhập</Text>
              </TouchableOpacity>
 
@@ -29,11 +67,13 @@ export default function Login({navigation}) {
              <Image source={require('../icon/login/icons8_facebook_48px_1 1.png')} style={styles.icon}/>
              </View>
 
-             <Text style={{fontSize:15,color:'white',paddingTop:20}}>Bạn chưa là thành viên?
-             <TouchableOpacity onPress={()=> {navigation.navigate("SignUp")}}> <Text style={ { color: '#4790FD' ,fontSize:15}}> Hãy đăng ký</Text>
+             <View style={{flexDirection: 'row' }}>
+             <Text style={{fontSize:15,color:'white'}}>Bạn chưa là thành viên?</Text>
+             <TouchableOpacity onPress={()=> {navigation.navigate("SignUp")}}>
+               <Text style={ { color: '#4790FD' ,fontSize:15}}> Hãy đăng ký</Text>
              </TouchableOpacity>
-
-             </Text>
+             </View>
+             
 
     </View>
   );

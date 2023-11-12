@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View ,Button,Image} from 'react-native';
 import React, { useEffect } from 'react';
-export default function App({navigation}) {
+export default function Load({navigation}) {
 
     useEffect(() => {
         const timer = setTimeout(() => {

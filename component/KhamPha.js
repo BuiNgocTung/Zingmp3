@@ -1,9 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function App({ navigation }) {
+
+export default function KhamPha({ navigation, route }) {
+  const { user } = route.params || {};
+  const userImage = user && user.img ? user.img : require('../img/user/user.png');
+  const handleImagePress = () => {
+    navigation.navigate('User', { user });
+  };
+
+
+
+
   const recentMusicData = [
     {
       id: 0,
@@ -35,8 +45,8 @@ export default function App({ navigation }) {
 
         <View style={styles.header}>
           {/* Thanh header */}
-          <TouchableOpacity onPress={() => { navigation.navigate("User") }}>
-            <Image source={require('../img/user/tung.jpg')} style={styles.userImage} />
+          <TouchableOpacity onPress={handleImagePress}>
+            <Image source={userImage} style={styles.userImage} />
         
           </TouchableOpacity>
 

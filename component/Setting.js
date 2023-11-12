@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Image, TextInput, TouchableOpacity } from 'react-native';
 import React, { useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome'
-export default function App({ navigation }) {
+export default function Setting({ navigation }) {
 
     return (
         <View style={styles.container}>

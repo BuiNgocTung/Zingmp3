@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ScrollView,
 import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import unorm from 'unorm';
-export default function App({ navigation }) {
+export default function Search({ navigation }) {
     const recentMusicData = [
         {
             id: 0,

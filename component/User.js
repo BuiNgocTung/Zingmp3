@@ -2,8 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Image, TextInput, TouchableOpacity } from 'react-native';
 import React, { useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome'
-export default function App({ navigation }) {
-
+export default function User({ navigation, route }) {
+    const { user } = route.params || {};
+    const userImage = user && user.img ? user.img : require('../img/user/user.png');
     return (
         <View style={styles.container}>
 
@@ -22,8 +23,8 @@ export default function App({ navigation }) {
 
             </View>
             <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 55 }}>
-                <Image source={require('../img/user/tung.jpg')} style={{ width: 80, height: 80, borderRadius: 150, paddingLeft: 10 }} />
-                <Text style={{ fontSize: 27, margin: 10 }}> Tung</Text>
+                <Image source={userImage} style={{ width: 80, height: 80, borderRadius: 150, paddingLeft: 10 }} />
+                <Text style={{ fontSize: 27, margin: 10 }}> {user.username}</Text>
             </View>
             {/* upgrade */}
             <View style={{ alignItems: 'center' }}>

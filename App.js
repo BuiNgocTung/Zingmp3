@@ -16,6 +16,7 @@
   import ZingChart from "./component/ZingChart";
   import Radio from "./component/Radio";
   import BHYeuThich from "./component/BHYeuThich";
+  import ChiTietBH from "./component/ChiTietBH";
 
   import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -34,10 +35,12 @@
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="ThuVien" component={ThuVien} />
           <Stack.Screen name="Setting" component={Setting} />
+          <Stack.Screen name="KhamPha" component={KhamPha} />
 
           <Stack.Screen name="Tab" component={TabNavigator} options={{ title: 'Home' }} />
 
           <Stack.Screen name="BHYeuThich"  component={BHYeuThich} />
+          <Stack.Screen name="ChiTietBH" component={ChiTietBH} />
         </Stack.Navigator>
       </NavigationContainer>
     );
@@ -47,14 +50,14 @@
   function TabNavigator() {
     return (
       <Tab.Navigator
-        initialRouteName='Khám Phá'headerMode='none'
+        initialRouteName='KhamPha'headerMode='none'
         screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
+          tabBarIcon: ({ color, size }) => {
             let iconName;
 
-            if (route.name === 'Thư viện') {
+            if (route.name === 'ThuVien') {
               iconName = 'library-music';
-            } else if (route.name === 'Khám Phá') {
+            } else if (route.name === 'KhamPha') {
               iconName = 'pageview';
             }
             else if (route.name === '#zingchart') {
@@ -75,8 +78,8 @@
 
         })}
       >
-        <Tab.Screen name="Thư viện" component={ThuVien} />
-        <Tab.Screen name="Khám Phá" component={KhamPha} />
+        <Tab.Screen name="ThuVien" component={ThuVien} />
+        <Tab.Screen name="KhamPha" component={KhamPha} />
         <Tab.Screen name="#zingchart" component={ZingChart} />
         <Tab.Screen name="Radio" component={Radio} />
         <Stack.Screen name="User" component={User} />
