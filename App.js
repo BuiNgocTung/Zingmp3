@@ -28,7 +28,7 @@
   export default function App() {
     return (
       <NavigationContainer >
-        <Stack.Navigator initialRouteName="BHYeuThich" screenOptions={{ headerShown: false, }}>
+        <Stack.Navigator initialRouteName="Load" screenOptions={{ headerShown: false, }}>
           <Stack.Screen name="Search" component={Search} />
           <Stack.Screen name="Load" component={Load} />
           <Stack.Screen name="Login" component={Login} />

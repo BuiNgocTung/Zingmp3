@@ -40,9 +40,15 @@
       "password": "123",
       "img": "",
       "id": 3
+    },
+    {
+      "username": "duy",
+      "password": "123",
+      "img": "",
+      "id": 4
     }
   ],
-  "song":[
+  "song": [
     {
       "id": 0,
       "title": "Gương mặt lạ lẫm",
