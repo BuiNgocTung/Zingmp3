@@ -8,7 +8,7 @@ export default function App({ navigation }) {
         <View style={styles.container}>
 
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => { navigation.navigate("Tab") }}>
+                <TouchableOpacity onPress={() => { navigation.goBack() }}>
                     <Icon name={'arrow-left'} size={20} />
                 </TouchableOpacity>
 

@@ -60,7 +60,7 @@ export default function App({ navigation }) {
                         <Icon name='mic' style={styles.microphoneIcon} size={20} />
                     </View>
 
-                    <TouchableOpacity onPress={() => { navigation.navigate("Tab") }}>
+                    <TouchableOpacity onPress={() => { navigation.goBack() }}>
                         <Text>Hủy</Text>
                     </TouchableOpacity>
                 </View>

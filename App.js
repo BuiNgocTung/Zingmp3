@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { StyleSheet, Image } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Image,TouchableOpacity } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -16,6 +16,7 @@ import Search from "./component/Search";
 import ZingChart from "./component/ZingChart";
 import Radio from "./component/Radio";
 import BHYeuThich from "./component/BHYeuThich";
+import Category from "./component/Category";
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 // import Icon from 'react-native-vector-icons/FontAwesome';
@@ -29,14 +30,12 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer >
-      <Stack.Navigator initialRouteName="Load" screenOptions={{ headerShown: false, }}>
-      <Stack.Screen name="BHYeuThich" component={BHYeuThich} />
-        <Stack.Screen name="Search" component={Search} />
+      <Stack.Navigator initialRouteName="Tab" screenOptions={{ headerShown: false, }}>
+
         <Stack.Screen name="Load" component={Load} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="SignUp" component={SignUp} />
-        
-        <Stack.Screen name="Setting" component={Setting} />
+
 
         <Stack.Screen name="Tab" component={TabNavigator} options={{ title: 'Home' }} />
       </Stack.Navigator>
@@ -44,11 +43,75 @@ export default function App() {
   );
 }
 
-function TabNavigator() {
+function TabThuVien() {
+  return (
+    <Stack.Navigator initialRouteName="ThuVien" screenOptions={{ headerShown: false, }}>
 
+      <Stack.Screen name="ThuVien" component={ThuVien} />
+      <Stack.Screen name="BHYeuThich" component={BHYeuThich} />
+      <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen name="Setting" component={Setting} />
+    </Stack.Navigator>
+
+  );
+};
+function TabKhamPha() {
+  return (
+    <Stack.Navigator initialRouteName="KhamPha" screenOptions={{ headerShown: false, }}>
+
+
+      <Stack.Screen name="KhamPha" component={KhamPha} />
+      <Stack.Screen name="Category" component={Category} />
+      <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen name="Setting" component={Setting} />
+    </Stack.Navigator>
+
+  );
+};
+
+function TabZingChart() {
+  return (
+    <Stack.Navigator initialRouteName="#Zingchart" screenOptions={{ headerShown: false, }}>
+
+
+      <Stack.Screen name="#Zingchart" component={ZingChart} />
+      <Stack.Screen name="Category" component={Category} />
+      <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen name="Setting" component={Setting} />
+    </Stack.Navigator>
+
+  );
+};
+function TabRadio() {
+  return (
+    <Stack.Navigator initialRouteName="Radio" screenOptions={{ headerShown: false, }}>
+
+
+      <Stack.Screen name="Radio" component={Radio} />
+      <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen name="Setting" component={Setting} />
+    </Stack.Navigator>
+
+  );
+};
+
+function TabUser() {
+  return (
+    <Stack.Navigator initialRouteName="User" screenOptions={{ headerShown: false, }}>
+
+
+      <Stack.Screen name="User" component={User} />
+      <Stack.Screen name="Setting" component={Setting} />
+    </Stack.Navigator>
+
+  );
+};
+
+function TabNavigator() {
+  const [currentTab, setCurrentTab] = useState('Thư viện');
   return (
     <Tab.Navigator
-      initialRouteName='#zingchart'
+      initialRouteName='Khám Phá'
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -73,13 +136,20 @@ function TabNavigator() {
             </View>
           );
         }, headerShown: false,
+        tabBarButton: (props) => (<TouchableOpacity
+          {...props}
+          onPress={() => {
+            setCurrentTab(route.name);
+            props.onPress();
+          }}
+        />),
       })}
     >
-      <Tab.Screen name="Thư viện" component={ThuVien} />
-      <Tab.Screen name="Khám Phá" component={KhamPha} />
-      <Tab.Screen name="#zingchart" component={ZingChart} />
-      <Tab.Screen name="Radio" component={Radio} />
-      <Stack.Screen name="User" component={User} />
+      <Tab.Screen name="Thư viện" component={TabThuVien} />
+      <Tab.Screen name="Khám Phá" component={TabKhamPha} />
+      <Tab.Screen name="#zingchart" component={TabZingChart} />
+      <Tab.Screen name="Radio" component={TabRadio} />
+      <Tab.Screen name="User" component={TabUser} />
     </Tab.Navigator>
   );
 };

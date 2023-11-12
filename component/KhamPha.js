@@ -61,39 +61,39 @@ export default function App({ navigation }) {
         <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop: 20 }}>
         
         <TouchableOpacity style={styles.menuItem}>
-            <TouchableOpacity style={styles.upgradeItem}>
+            <View style={styles.upgradeItem}>
               <Icon name='music' />
-            </TouchableOpacity>
+            </View>
             <Text style={{ fontSize: 12 }}>Nhạc mới</Text>
           </TouchableOpacity>
 
 
-          <TouchableOpacity style={styles.menuItem}>
-            <TouchableOpacity style={styles.upgradeItem}>
+          <TouchableOpacity style={styles.menuItem} onPress={() => { navigation.navigate("Category") }}>
+            <View style={styles.upgradeItem}>
               <Icon name='list' />
-            </TouchableOpacity>
+            </View>
             <Text style={{ fontSize: 12 }}>Thể loại</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.menuItem}>
-            <TouchableOpacity style={styles.upgradeItem}>
+            <View style={styles.upgradeItem}>
               <Icon name='star' />
-            </TouchableOpacity>
+            </View>
             <Text style={{ fontSize: 12 }}>Top 10</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.menuItem}>
-            <TouchableOpacity style={styles.upgradeItem}>
+            <View style={styles.upgradeItem}>
               <Icon name='play' />
-            </TouchableOpacity>
+            </View>
             <Text style={{ fontSize: 12 }}>Top MV</Text>
           </TouchableOpacity>
 
           
           <TouchableOpacity style={styles.menuItem}>
-            <TouchableOpacity style={styles.upgradeItem}>
+            <View style={styles.upgradeItem}>
               <Icon name='calendar' />
-            </TouchableOpacity>
+            </View>
             <Text style={{ fontSize: 12 }}>Sự kiện</Text>
           </TouchableOpacity>
 
