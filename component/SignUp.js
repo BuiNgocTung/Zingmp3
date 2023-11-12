@@ -28,11 +28,8 @@ export default function Login({navigation}) {
              <Text style={{fontSize:15,color:'white',paddingTop:20}}>Bạn là thành viên?
              <TouchableOpacity onPress={()=>{navigation.navigate('Login')}}> <Text style={{ color: '#4790FD' ,fontSize:15}}> Hãy đăng nhập</Text>
              </TouchableOpacity>
-
-             </Text>
-
-            {/* <Button title='Dang nhap' onPress={()=>{navigation.navigate("KhamPha")}}></Button> */}
-    </View>
+        </View>
+</View>
   );
 }
 
