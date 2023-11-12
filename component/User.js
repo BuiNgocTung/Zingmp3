@@ -2,19 +2,21 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Image, TextInput, TouchableOpacity } from 'react-native';
 import React, { useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome'
-export default function App({ navigation }) {
+export default function App({ navigation, route }) {
+    const { user } = route.params || {};
+    const userImage = user && user.img ? { uri: user.img } : require('../img/user/user.png');
 
     return (
         <View style={styles.container}>
 
             <View style={styles.header}>
-           
+
                 <Text style={{ fontSize: 20, fontWeight: '700' }}>Tài khoản cá nhân </Text>
 
 
-                <TouchableOpacity onPress={()=> {navigation.navigate("Setting")}}>
+                <TouchableOpacity onPress={() => { navigation.navigate("Setting") }}>
                     <Icon name='gear' size={20} />
-                   
+
                 </TouchableOpacity>
 
 
@@ -22,7 +24,7 @@ export default function App({ navigation }) {
 
             </View>
             <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 55 }}>
-                <Image source={require('../img/user/tung.jpg')} style={{ width: 80, height: 80, borderRadius: 150, paddingLeft: 10 }} />
+                <Image source={userImage} style={{ width: 80, height: 80, borderRadius: 150, paddingLeft: 10 }} />
                 <Text style={{ fontSize: 27, margin: 10 }}> Tung</Text>
             </View>
             {/* upgrade */}
@@ -33,7 +35,7 @@ export default function App({ navigation }) {
 
                     <TouchableOpacity style={{
                         backgroundColor: '#FFD704', borderRadius: 30, width: 200, height: 40, alignItems: 'center',
-                        justifyContent: 'center', marginTop:20
+                        justifyContent: 'center', marginTop: 20
                     }}>
                         <Text style={{ fontSize: 16, fontWeight: '700' }}>Nâng cấp tài khoản</Text>
                     </TouchableOpacity>
@@ -63,7 +65,7 @@ export default function App({ navigation }) {
                 <View style={{ borderBlockColor: 'gray', borderBottomWidth: 2, width: 350, marginTop: 20 }}></View>
 
                 <TouchableOpacity style={{ flexDirection: 'row', marginTop: 20, marginLeft: 10 }}
-                onPress={()=> {navigation.navigate("Login")}}>
+                    onPress={() => { navigation.navigate("Login") }}>
                     <Icon name='sign-out' size={20} color={'gray'} />
                     <Text style={{ fontSize: 16, paddingLeft: 30 }}>Đăng xuất tài khoản</Text>
                 </TouchableOpacity>
