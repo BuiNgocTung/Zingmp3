@@ -68,7 +68,7 @@ export default function App({ navigation }) {
           </TouchableOpacity>
 
 
-          <TouchableOpacity style={styles.menuItem} onPress={() => { navigation.navigate("Category") }}>
+          <TouchableOpacity style={styles.menuItem} onPress={() => { navigation.navigate('Category') }}>
             <View style={styles.upgradeItem}>
               <Icon name='list' />
             </View>
