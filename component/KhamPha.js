@@ -3,7 +3,9 @@ import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ScrollView,
 import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function App({ navigation }) {
+export default function App({ navigation,route }) {
+  const { user } = route.params || {};
+  const userImage = user && user.img ? { uri: user.img } : require('../img/user/user.png');
   const recentMusicData = [
     {
       id: 0,
@@ -36,7 +38,7 @@ export default function App({ navigation }) {
         <View style={styles.header}>
           {/* Thanh header */}
           <TouchableOpacity onPress={() => { navigation.navigate("User") }}>
-            <Image source={require('../img/user/tung.jpg')} style={styles.userImage} />
+            <Image source={userImage} style={styles.userImage} />
         
           </TouchableOpacity>
 
@@ -75,7 +77,7 @@ export default function App({ navigation }) {
             <Text style={{ fontSize: 12 }}>Thể loại</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.menuItem} onPress={() => { navigation.navigate("#Zingchart") }}>
+          <TouchableOpacity style={styles.menuItem} onPress={() => { navigation.navigate("#zingchart") }}>
             <View style={styles.upgradeItem}>
               <Icon name='star' />
             </View>

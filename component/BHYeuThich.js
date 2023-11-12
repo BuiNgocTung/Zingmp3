@@ -22,6 +22,7 @@ export default function BHYeuThich({ navigation }) {
         navigation.navigate('ChiTietBH', { songId });
       };
     return (
+      
         <View style={styles.container}>
             <View style={styles.body1}>
                 <TouchableOpacity onPress={()=>{navigation.goBack()}}>
@@ -72,13 +73,14 @@ export default function BHYeuThich({ navigation }) {
      
             
         </View>
+       
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 10
+     marginTop:10
     },
     body1:{
         flexDirection:"row",

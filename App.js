@@ -32,7 +32,7 @@ export default function App() {
   return (
     <NavigationContainer >
       <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false, }}>
-
+    
         <Stack.Screen name="Load" component={Load} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="SignUp" component={SignUp} />
@@ -46,9 +46,9 @@ export default function App() {
 
 function TabThuVien() {
   return (
-    <Stack.Navigator initialRouteName="ThuVien" screenOptions={{ headerShown: false, }}>
+    <Stack.Navigator initialRouteName="ThuVien" screenOptions={{ headerShown: false, }} >
 
-      <Stack.Screen name="ThuVien" component={ThuVien} />
+      <Stack.Screen name="ThuVien" component={ThuVien}  />
       <Stack.Screen name="BHYeuThich" component={BHYeuThich} />
       <Stack.Screen name="ChiTietBH" component={ChiTietBH} />
       <Stack.Screen name="Search" component={Search} />
@@ -73,10 +73,10 @@ function TabKhamPha() {
 
 function TabZingChart() {
   return (
-    <Stack.Navigator initialRouteName="#Zingchart" screenOptions={{ headerShown: false, }}>
+    <Stack.Navigator initialRouteName="zingchart" screenOptions={{ headerShown: false, }}>
 
 
-      <Stack.Screen name="#Zingchart" component={ZingChart} />
+      <Stack.Screen name="zingchart" component={ZingChart} />
      
       <Stack.Screen name="Search" component={Search} />
       <Stack.Screen name="Setting" component={Setting} />
@@ -109,18 +109,19 @@ function TabUser() {
   );
 };
 
-function TabNavigator() {
-  const [currentTab, setCurrentTab] = useState('Thư viện');
+function TabNavigator({route}) {
+
+  const [currentTab, setCurrentTab] = useState();
   return (
     <Tab.Navigator
-      initialRouteName='Khám Phá'
+      initialRouteName='Thư viện'
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
           if (route.name === 'Thư viện') {
             iconName = 'library-music';
-          } else if (route.name === 'Khám Phá') {
+          } else if (route.name === 'Khám phá') {
             iconName = 'pageview';
           }
           else if (route.name === '#zingchart') {
@@ -143,12 +144,11 @@ function TabNavigator() {
           onPress={() => {
             setCurrentTab(route.name);
             props.onPress();
-          }}
-        />),
-      })}
-    >
-      <Tab.Screen name="Thư viện" component={TabThuVien} />
-      <Tab.Screen name="Khám Phá" component={TabKhamPha} />
+          }} 
+        />) ,
+      })}  >
+      <Tab.Screen name="Thư viện" component={TabThuVien}  />
+      <Tab.Screen name="Khám phá" component={TabKhamPha} />
       <Tab.Screen name="#zingchart" component={TabZingChart} />
       <Tab.Screen name="Radio" component={TabRadio} />
       <Tab.Screen name="User" component={TabUser} />

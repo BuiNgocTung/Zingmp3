@@ -3,8 +3,9 @@ import { View, StyleSheet, Image, TouchableOpacity, TextInput, FlatList, Text, S
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Chart from '../component/Chart'
-export default function ZingChart({ navigation }) {
-
+export default function ZingChart({ navigation,route }) {
+  const { user } = route.params || {};
+  const userImage = user && user.img ? { uri: user.img } : require('../img/user/user.png');
 
   const recentMusicData = [
     {
@@ -100,7 +101,7 @@ export default function ZingChart({ navigation }) {
 
 
           <TouchableOpacity onPress={() => { navigation.navigate("User") }}>
-            <Image source={require('../img/user/tung.jpg')} style={styles.userImage} />
+            <Image source={userImage} style={styles.userImage} />
           </TouchableOpacity>
 
           <View style={styles.searchBar}>
