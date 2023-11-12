@@ -110,7 +110,7 @@ export default function App({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.body1}>
-                <TouchableOpacity onPress={()=>{navigation.navigate("Tab")}}>
+                <TouchableOpacity onPress={()=>{navigation.navigate("ThuVien")}}>
                     <Ionicons style={{left:7}} name="chevron-back" size={26} color="black" />
                 </TouchableOpacity>
 

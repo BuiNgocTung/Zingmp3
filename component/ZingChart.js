@@ -133,7 +133,7 @@ export default function ZingChart({ navigation }) {
         }}>
           <View style={{ marginTop: 5 }}>
             <FlatList
-              data={recentMusicData}
+              data={recentMusicData.slice(0,10)}
               keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (
                 <View style={{ justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center', }}>

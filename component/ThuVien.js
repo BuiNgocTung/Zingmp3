@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import React, { useState } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function App({ navigation }) {
   const recentMusicData = [
@@ -80,7 +80,7 @@ export default function App({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity>
             <View style={styles.upgradeItem}>
-              <Icon name='download' size={48} style={styles.downloadIcon} />
+              <Icon name='cloud-download' size={48} style={styles.downloadIcon} />
               <Text style={styles.upgradeText}>Đã tải</Text>
               <Text style={styles.upgradeCount}>0</Text>
             </View>
@@ -137,14 +137,14 @@ export default function App({ navigation }) {
           <View style={styles.additionalButtonsContainer}>
             <TouchableOpacity style={styles.additionalButton}>
               <View style={styles.buttonIconContainer}>
-                <Icon name='plus' size={20} style={styles.buttonIcon} />
+                <Icon name='add' size={20} style={styles.buttonIcon} />
               </View>
               <Text style={styles.additionalButtonText}>Tạo playlist</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.additionalButton}>
               <View style={styles.buttonIconContainer}>
-                <Icon name='music' size={20} style={styles.buttonIcon} />
+                <Icon name='music-note' size={20} style={styles.buttonIcon} />
               </View>
               <Text style={styles.additionalButtonText}>Những bài nhạc hay của PMQ</Text>
             </TouchableOpacity>
@@ -158,7 +158,7 @@ export default function App({ navigation }) {
               justifyContent: 'center', alignItems: 'center',
               borderWidth: 1, borderColor: 'gray', width: 40, height: 40, borderRadius: 10
             }}>
-              <Icon name='music' size={20} /></View>
+              <Icon name='music-note' size={20} /></View>
             <Text style={{ fontSize: 16, fontWeight: '700', marginTop: 10 }}>Bạn chưa có album nào</Text>
             <Text style={{ fontSize: 14, marginTop: 10 }}>Tìm album bạn yêu thích để thêm</Text>
             <Text style={{ fontSize: 14, }}>vào thư viện</Text>

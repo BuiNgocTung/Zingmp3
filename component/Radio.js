@@ -165,10 +165,11 @@ export default function App({ navigation }) {
                         data={recentMusicData}
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={({ item }) => (
+
                             <TouchableOpacity style={styles.recentMusicItem}>
                                 <Image source={item.image} style={[styles.recentMusicImage, { width: 120, height: 125, }]} />
 
-                                <Text>Live</Text>
+                                <Text>{item.name}</Text>
                             </TouchableOpacity>
                         )} />
                 </View>
@@ -232,9 +233,10 @@ const styles = StyleSheet.create({
     },
     recentMusicItem: {
         alignItems: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
         height: 180,
-
+        width:120,
+        marginRight:30
 
     },
     recentRadio: {
