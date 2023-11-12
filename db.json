@@ -1,0 +1,107 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "users": [
+    {
+      "id": 0,
+      "username": "Duong",
+      "password": "123",
+      "img": "https://res.cloudinary.com/dpxgh1qfh/image/upload/v1699622450/duong_ntrorq.png"
+    },
+    {
+      "id": 1,
+      "username": "Tung",
+      "password": "456",
+      "img": "https://res.cloudinary.com/dpxgh1qfh/image/upload/v1699622313/tung_vriyd5.jpg"
+    },
+    {
+      "username": "An",
+      "password": "123",
+      "img": "",
+      "id": 2
+    },
+    {
+      "username": "Chanh",
+      "password": "123",
+      "img": "",
+      "id": 3
+    },
+    {
+      "username": "duy",
+      "password": "123",
+      "img": "",
+      "id": 4
+    },
+    {
+      "username": "tien",
+      "password": "123",
+      "img": "",
+      "id": 5
+    }
+  ],
+  "song": [
+    {
+      "id": 0,
+      "title": "Gương mặt lạ lẫm",
+      "artist": "Mr. Siro",
+      "duration": "05:34",
+      "img": "https://res.cloudinary.com/dpxgh1qfh/image/upload/v1699679015/img1_d3ut9c.png",
+      "url": "https://res.cloudinary.com/dpxgh1qfh/video/upload/v1699675905/GuongMatLaLam-MrSiro-4583437_fsbiit.mp3"
+    },
+    {
+      "id": 1,
+      "title": "Hết Thương Cạn Nhớ",
+      "artist": "Đức Phúc",
+      "duration": "05:52",
+      "img": "https://res.cloudinary.com/dpxgh1qfh/image/upload/v1699678078/img2_h9u3vf.png",
+      "url": "https://res.cloudinary.com/dpxgh1qfh/video/upload/v1699677597/H%E1%BA%BET_TH%C6%AF%C6%A0NG_C%E1%BA%A0N_NH%E1%BB%9A_-_%C4%90%E1%BB%A8C_PH%C3%9AC_ibera5.mp3"
+    },
+    {
+      "id": 2,
+      "title": "Còn Gì Đau Hơn Chữ Đã Từng",
+      "artist": "Quân A.P",
+      "duration": "05:09",
+      "img": "https://res.cloudinary.com/dpxgh1qfh/image/upload/v1699678004/img3_awda1a.png",
+      "url": "https://res.cloudinary.com/dpxgh1qfh/video/upload/v1699683694/9adrc3ae4y_uuyeff.mp3"
+    },
+    {
+      "id": 3,
+      "title": "Là Bạn Không Thể Yêu",
+      "artist": "Lou Hoàng",
+      "duration": "04:43  ",
+      "img": "https://res.cloudinary.com/dpxgh1qfh/image/upload/v1699678004/img4_n0aqth.png",
+      "url": "https://res.cloudinary.com/dpxgh1qfh/video/upload/v1699678142/LaBanKhongTheYeu-LouHoang-6104199_u8cyo7.mp3"
+    },
+    {
+      "id": 4,
+      "title": "Bước Qua Đời Nhau",
+      "artist": "Lê Bảo Bình",
+      "duration": "04:52",
+      "img": "https://res.cloudinary.com/dpxgh1qfh/image/upload/v1699678004/img5_kyzbcb.png",
+      "url": "https://res.cloudinary.com/dpxgh1qfh/video/upload/v1699678148/BuocQuaDoiNhauTNBHRemix-LeBaoBinh-6060704_wujjof.mp3"
+    },
+    {
+      "id": 5,
+      "title": "Lời Yêu Ngây Dại",
+      "artist": "Kha",
+      "duration": "04:57",
+      "img": "https://res.cloudinary.com/dpxgh1qfh/image/upload/v1699678005/img6_x5rqbl.png",
+      "url": "https://res.cloudinary.com/dpxgh1qfh/video/upload/v1699678142/LaBanKhongTheYeu-LouHoang-6104199_u8cyo7.mp3"
+    }
+  ]
+}

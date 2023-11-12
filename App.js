@@ -18,7 +18,7 @@ import Radio from "./component/Radio";
 import BHYeuThich from "./component/BHYeuThich";
 import Category from "./component/Category";
 import MusicByCategory from "./component/MusicByCategory";
-
+import ChiTietBH from "./component/ChiTietBH";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import { View } from 'react-native-web';
@@ -50,6 +50,7 @@ function TabThuVien() {
 
       <Stack.Screen name="ThuVien" component={ThuVien} />
       <Stack.Screen name="BHYeuThich" component={BHYeuThich} />
+      <Stack.Screen name="ChiTietBH" component={ChiTietBH} />
       <Stack.Screen name="Search" component={Search} />
       <Stack.Screen name="Setting" component={Setting} />
     </Stack.Navigator>
