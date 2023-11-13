@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View ,Image,TouchableOpacity} from 'react-native';
-import React, {useState,useEffect} from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { Audio } from 'expo-av';
-import { AntDesign,FontAwesome,Feather,Ionicons,EvilIcons,MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { AntDesign, FontAwesome, Feather, Ionicons, EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
-
-export default function ChiTietBH({navigation, route}) {
+import Icon from 'react-native-vector-icons/FontAwesome';
+export default function ChiTietBH({ navigation, route }) {
   const { songId } = route.params;
   const [songData, setSongData] = useState([]);
   const [playedTime, setPlayedTime] = useState(0);
@@ -27,39 +27,43 @@ export default function ChiTietBH({navigation, route}) {
     }
   };
 
- useEffect(() => {
-  fetch(`http://localhost:3001/song/${songId}`)
-    .then(response => response.json())
-    .then(result => {
-      setSongData(result);
-      const durationInSeconds = convertTimeStringToSeconds(result.duration);
-      setDuration(durationInSeconds);
-      setRemainingTime(durationInSeconds);
-
-      const loadSound = async () => {
-        if (sound) {
-          await sound.unloadAsync();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:3001/song/${songId}`);
+        if (!response.ok) {
+          throw new Error('Không thể lấy dữ liệu bài hát');
         }
+        const result = await response.json();
+        setSongData(result);
+
+        const durationInSeconds = convertTimeStringToSeconds(result.duration);
+        setDuration(durationInSeconds);
+        setRemainingTime(durationInSeconds);
 
         const { sound: newSound } = await Audio.Sound.createAsync(
-          { uri: result.url }, // Sử dụng result.url thay vì songData.url
+          { uri: result.url },
           { shouldPlay: isPlaying }
         );
         setSound(newSound);
-      };
+      } catch (error) {
+        console.error('Lỗi:', error.message);
+        // Xử lý lỗi ở đây, ví dụ: hiển thị thông báo cho người dùng
+      }
+    };
 
-      loadSound();
-    })
-    .catch(error => console.error('Lỗi khi lấy dữ liệu chi tiết bài hát', error));
+    fetchData();
+  }, [songId]);
+  useEffect(() => {
+    const cleanup = () => {
+      if (sound) {
+        sound.unloadAsync();
+      }
+    };
 
-  return () => {
-    // Tắt âm thanh khi thành phần unmount
-    if (sound) {
-      sound.unloadAsync();
-    }
-  };
-}, [songId, isPlaying]);
-    
+    return cleanup;
+  }, [sound]);
+
 
   const handlePlayPause = async () => {
     if (sound) {
@@ -84,7 +88,7 @@ export default function ChiTietBH({navigation, route}) {
       if (!status.isLoaded) {
         return;
       }
-  
+
       if (status.didJustFinish) {
         setPlaybackStatus({ ...playbackStatus, isPlaying: false });
         setCurrentPosition(0);
@@ -95,11 +99,11 @@ export default function ChiTietBH({navigation, route}) {
         setRemainingTime(duration - (status.positionMillis / 1000));
       }
     };
-  
+
     if (sound) {
       sound.setOnPlaybackStatusUpdate(handlePlaybackStatusUpdate);
     }
-  
+
     return () => {
       if (sound) {
         sound.setOnPlaybackStatusUpdate(null);
@@ -129,36 +133,38 @@ export default function ChiTietBH({navigation, route}) {
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
-  return (
-      <View style={styles.container}>
-        <View style={styles.view1}>
-            <TouchableOpacity onPress={()=>navigation.goBack()}y><AntDesign name="down" size={24} color="white" />
-            </TouchableOpacity>
-            <Text style={styles.text1}>PHÁT TỪ #zingChart</Text>
-            <TouchableOpacity>  <AntDesign name="ellipsis1" size={24} color="white" /></TouchableOpacity>
-        </View>
 
-        <View style={styles.view2}>
+  
+  return (
+    <View style={styles.container}>
+      <View style={styles.view1}>
+        <TouchableOpacity onPress={() => navigation.goBack()} y><AntDesign name="down" size={24} color="white" />
+        </TouchableOpacity>
+        <Text style={styles.text1}>PHÁT TỪ #zingChart</Text>
+        <TouchableOpacity>  <AntDesign name="ellipsis1" size={24} color="white" /></TouchableOpacity>
+      </View>
+
+      <View style={styles.view2}>
         <Image style={styles.img} resizeMode="cover" source={{ uri: songData.img }} />
 
-        </View>
+      </View>
 
-        <View style={styles.view3}>
-          <TouchableOpacity>
-          <Image style={styles.img1} source={require('../img/BHYeuThich/img1.png')}></Image>
-          </TouchableOpacity>
-          
-          <View >
-              <Text style={styles.text2}>{songData.title}</Text>
-              <Text style={styles.text2}>{songData.artist}</Text>
-          </View>
-          <TouchableOpacity>
-              <AntDesign name="hearto" style={{top: 3}} size={22} color="white" />  
-          </TouchableOpacity>
-         
-        </View>
+      <View style={styles.view3}>
+        <TouchableOpacity>
+          <Icon name='download' size={26} style={styles.downloadIcon} color={'white'} />
+        </TouchableOpacity>
 
-        <View style={styles.audioBar}>
+        <View >
+          <Text style={styles.text2}>{songData.title}</Text>
+          <Text style={styles.text2}>{songData.artist}</Text>
+        </View>
+        <TouchableOpacity>
+          <AntDesign name="hearto" style={{ top: 3 }} size={22} color="white" />
+        </TouchableOpacity>
+
+      </View>
+
+      <View style={styles.audioBar}>
         <Slider
           style={{ width: '100%' }}
           minimumValue={0}
@@ -171,50 +177,52 @@ export default function ChiTietBH({navigation, route}) {
           onValueChange={handleSliderChange}
           onSlidingComplete={handleSliderComplete}
         />
-        </View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', marginRight: 46, marginBottom: 5}}>
-        <Text style={styles.timeText}>{formatTime(playedTime)}</Text>
-       <Text style={styles.timeText}>{formatTime(remainingTime)}</Text>
-        </View>
-
-
-        <View style={styles.view4}>
-          <TouchableOpacity>
-           <FontAwesome name="random" size={30} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <AntDesign style={{left: 20}} name="stepbackward" size={35} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handlePlayPause}>
-            <AntDesign name={buttonIsPlaying  ? 'pausecircleo' : 'playcircleo'} size={35} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <AntDesign style={{right: 20}}  name="stepforward" size={35} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity>         
-            <Feather name="repeat" size={30} color="white" />
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.view4}>
-          <TouchableOpacity>
-            <MaterialCommunityIcons name="message-reply-outline" size={30} color="white" />
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <Ionicons name="md-musical-note" size={30} color="white" /> 
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <EvilIcons name="arrow-down" size={35} color="white" />
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <MaterialCommunityIcons name="music-note-plus" size={30} color="white" />
-          </TouchableOpacity>
-
-        </View>
       </View>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 46, marginBottom: 5 }}>
+        <Text style={styles.timeText}>{formatTime(playedTime)}</Text>
+        <Text style={styles.timeText}>{formatTime(remainingTime)}</Text>
+      </View>
+
+
+      <View style={styles.view4}>
+        <TouchableOpacity>
+          <FontAwesome name="random" size={30} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <AntDesign style={{ left: 20 }} name="stepbackward" size={35} color="white" />
+        </TouchableOpacity>
+        {/* button stop */}
+        <TouchableOpacity onPress={handlePlayPause}>
+          <AntDesign name={buttonIsPlaying ? 'pausecircleo' : 'playcircleo'} size={35} color="white" />
+        </TouchableOpacity>
+        {/* next music */}
+        <TouchableOpacity>
+          <AntDesign style={{ right: 20 }} name="stepforward" size={35} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Feather name="repeat" size={30} color="white" />
+        </TouchableOpacity>
+      </View>
+      {/* bottom */}
+      <View style={styles.view4}>
+        <TouchableOpacity>
+          <MaterialCommunityIcons name="message-reply-outline" size={30} color="white" />
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <Ionicons name="md-musical-note" size={30} color="white" />
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <EvilIcons name="arrow-down" size={35} color="white" />
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <MaterialCommunityIcons name="music-note-plus" size={30} color="white" />
+        </TouchableOpacity>
+
+      </View>
+    </View>
   );
 }
 
@@ -224,13 +232,13 @@ const styles = StyleSheet.create({
     backgroundImage: "linear-gradient( #150D76 0%, #9896E7 100%, #FFFFFF 45.22%)",
 
   },
-  view1:{
+  view1: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     margin: 15
   },
-  text1:{
+  text1: {
     fontSize: 11,
     fontWeight: 700,
     color: 'white',
@@ -249,7 +257,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginBottom: 40
   },
-  view3:{
+  view3: {
     marginLeft: 30,
     marginRight: 30,
     marginTop: 20,
@@ -257,7 +265,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     height: 70,
   },
-  view4:{
+  view4: {
     marginLeft: 30,
     marginRight: 30,
     flexDirection: 'row',
@@ -266,12 +274,12 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     marginTop: 10
   },
-  img1:{
+  img1: {
     width: 15,
     height: 20,
 
   },
-  text2:{
+  text2: {
     fontSize: 15,
     lineHeight: 18,
     fontWeight: 600,
