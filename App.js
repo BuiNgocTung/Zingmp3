@@ -37,7 +37,7 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="SignUp" component={SignUp} />
 
-
+        <Stack.Screen name="ChiTietBH" component={ChiTietBH} />
         <Stack.Screen name="Tab" component={TabNavigator} options={{ title: 'Home' }} />
       </Stack.Navigator>
     </NavigationContainer>
@@ -50,7 +50,7 @@ function TabThuVien() {
 
       <Stack.Screen name="ThuVien" component={ThuVien}  />
       <Stack.Screen name="BHYeuThich" component={BHYeuThich} />
-      <Stack.Screen name="ChiTietBH" component={ChiTietBH} />
+     
       <Stack.Screen name="Search" component={Search} />
       <Stack.Screen name="Setting" component={Setting} />
     </Stack.Navigator>
