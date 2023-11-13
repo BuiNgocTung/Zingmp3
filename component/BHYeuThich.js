@@ -19,7 +19,7 @@ export default function BHYeuThich({ navigation }) {
 
       const handleSongPress = async (songId) => {
         await AsyncStorage.setItem('audioState', JSON.stringify({ currentPosition: 0, isPlaying: true }));
-        navigation.navigate('ChiTietBH', { songId });
+        navigation.navigate('ChiTietBH', { songId:songId,data:data });
       };
     return (
       
