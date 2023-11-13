@@ -132,7 +132,8 @@ export default function ChiTietBH({navigation, route}) {
   return (
       <View style={styles.container}>
         <View style={styles.view1}>
-            <TouchableOpacity onPress={()=>navigation.navigate("BHYeuThich")}y><AntDesign name="down" size={24} color="white" />
+            <TouchableOpacity onPress={()=>navigation.navigate("BHYeuThich")}y>
+            <AntDesign name="down" size={24} color="white" />
             </TouchableOpacity>
             <Text style={styles.text1}>PHÁT TỪ #zingChart</Text>
             <TouchableOpacity>  <AntDesign name="ellipsis1" size={24} color="white" /></TouchableOpacity>
@@ -153,7 +154,7 @@ export default function ChiTietBH({navigation, route}) {
               <Text style={styles.text2}>{songData.artist}</Text>
           </View>
           <TouchableOpacity>
-              <AntDesign name="hearto" style={{top: 3}} size={22} color="white" />  
+              {/* <AntDesign name="hearto" style={{top: 3}} size={22} color="white" />   */}
           </TouchableOpacity>
          
         </View>
