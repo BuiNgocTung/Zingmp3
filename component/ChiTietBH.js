@@ -132,7 +132,7 @@ export default function ChiTietBH({navigation, route}) {
   return (
       <View style={styles.container}>
         <View style={styles.view1}>
-            <TouchableOpacity onPress={()=>navigation.navigate("BHYeuThich")}y><AntDesign name="down" size={24} color="white" />
+            <TouchableOpacity onPress={()=>navigation.goBack()}y><AntDesign name="down" size={24} color="white" />
             </TouchableOpacity>
             <Text style={styles.text1}>PHÁT TỪ #zingChart</Text>
             <TouchableOpacity>  <AntDesign name="ellipsis1" size={24} color="white" /></TouchableOpacity>
