@@ -4,19 +4,90 @@ import { Audio } from 'expo-av';
 import { AntDesign, FontAwesome, Feather, Ionicons, EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function ChiTietBH({ navigation, route }) {
-  const { songId } = route.params;
+  const { songId,data } = route.params;
   const [songData, setSongData] = useState([]);
   const [playedTime, setPlayedTime] = useState(0);
   const [remainingTime, setRemainingTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [sound, setSound] = useState();
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [currentPosition, setCurrentPosition] = useState(0);
   const [playbackStatus, setPlaybackStatus] = useState({ isPlaying: false, shouldPlay: false });
-  const [buttonIsPlaying, setButtonIsPlaying] = useState(false);
+  const [buttonIsPlaying, setButtonIsPlaying] = useState(true);
   const [isStopped, setIsStopped] = useState(true);
+  const [currentSongIndex, setCurrentSongIndex] = useState(0);
 
+  const handlePrevious = async () => {
+    try {
+      // Giảm index của bài hát hiện tại
+      const previousIndex = (currentSongIndex - 1 + data.length) % data.length;
+  
+      // Lấy id của bài hát trước đó từ danh sách
+      const previousSongId = data[previousIndex].id;
+  
+      // Gọi hàm fetchSongData với id của bài hát trước đó
+      await fetchSongData(previousSongId);
+  
+      // Cập nhật index hiện tại
+      setCurrentSongIndex(previousIndex);
+      setButtonIsPlaying(true)
+    } catch (error) {
+      console.error('Lỗi:', error.message);
+      // Xử lý lỗi ở đây nếu cần
+    }
+  };
+  const handleNext = async () => {
+    try {
+      // Tăng index của bài hát hiện tại
+      const nextIndex = (currentSongIndex + 1) % data.length;
+  
+      // Lấy id của bài hát tương ứng với index mới
+      const nextSongId = data[nextIndex].id;
+  
+      // Gọi hàm fetchSongData với id mới
+      await fetchSongData(nextSongId);
+  
+      // Cập nhật index hiện tại
+      setCurrentSongIndex(nextIndex);
+      setButtonIsPlaying(true)
+
+    } catch (error) {
+      console.error('Lỗi:', error.message);
+      // Xử lý lỗi ở đây nếu cần
+    }
+  };
+  
+  const fetchSongData = async (nextSongId) => {
+    try {
+      const response = await fetch(`http://localhost:3001/song/${nextSongId}`);
+      if (!response.ok) {
+        throw new Error('Không thể lấy dữ liệu bài hát');
+      }
+      const result = await response.json();
+      setSongData(result);
+  
+      // Cập nhật thời lượng và các giá trị khác nếu cần
+      const durationInSeconds = convertTimeStringToSeconds(result.duration);
+      setDuration(durationInSeconds);
+      setRemainingTime(durationInSeconds);
+  
+      // Unload và load lại âm thanh mới
+      if (sound) {
+        sound.unloadAsync();
+      }
+      const { sound: newSound } = await Audio.Sound.createAsync(
+        { uri: result.url },
+        { shouldPlay: isPlaying }
+      );
+      setSound(newSound);
+    } catch (error) {
+      console.error('Lỗi:', error.message);
+      // Xử lý lỗi ở đây nếu cần
+    }
+  };
+  
   const convertTimeStringToSeconds = (timeString) => {
     try {
       const [minutes, seconds] = timeString.split(':').map(Number);
@@ -43,9 +114,10 @@ export default function ChiTietBH({ navigation, route }) {
 
         const { sound: newSound } = await Audio.Sound.createAsync(
           { uri: result.url },
-          { shouldPlay: isPlaying }
-        );
+          { shouldPlay: JSON.parse(await AsyncStorage.getItem('isPlaying')) || true } // Sử dụng trạng thái từ AsyncStorage hoặc mặc định là true
+          );
         setSound(newSound);
+        handlePlayPause();
       } catch (error) {
         console.error('Lỗi:', error.message);
         // Xử lý lỗi ở đây, ví dụ: hiển thị thông báo cho người dùng
@@ -80,6 +152,8 @@ export default function ChiTietBH({ navigation, route }) {
       }
       setPlaybackStatus({ isPlaying: !playbackStatus.isPlaying, shouldPlay: !playbackStatus.shouldPlay });
       setButtonIsPlaying(!playbackStatus.isPlaying); // Cập nhật trạng thái của nút play/pause
+      await AsyncStorage.setItem('isPlaying', JSON.stringify(!playbackStatus.isPlaying));
+
     }
   };
 
@@ -94,6 +168,7 @@ export default function ChiTietBH({ navigation, route }) {
         setCurrentPosition(0);
         setPlayedTime(duration); // Đặt giá trị playedTime là duration khi kết thúc bài hát
         setRemainingTime(0);
+        handleNext();
       } else {
         setPlayedTime(status.positionMillis / 1000);
         setRemainingTime(duration - (status.positionMillis / 1000));
@@ -138,7 +213,7 @@ export default function ChiTietBH({ navigation, route }) {
   return (
     <View style={styles.container}>
       <View style={styles.view1}>
-        <TouchableOpacity onPress={() => navigation.goBack()} y><AntDesign name="down" size={24} color="white" />
+        <TouchableOpacity onPress={() => navigation.goBack({data})} y><AntDesign name="down" size={24} color="white" />
         </TouchableOpacity>
         <Text style={styles.text1}>PHÁT TỪ #zingChart</Text>
         <TouchableOpacity>  <AntDesign name="ellipsis1" size={24} color="white" /></TouchableOpacity>
@@ -185,10 +260,12 @@ export default function ChiTietBH({ navigation, route }) {
 
 
       <View style={styles.view4}>
-        <TouchableOpacity>
+       
+        <TouchableOpacity >
           <FontAwesome name="random" size={30} color="white" />
         </TouchableOpacity>
-        <TouchableOpacity>
+     {/* lui */}
+        <TouchableOpacity onPress={handlePrevious}>
           <AntDesign style={{ left: 20 }} name="stepbackward" size={35} color="white" />
         </TouchableOpacity>
         {/* button stop */}
@@ -196,7 +273,7 @@ export default function ChiTietBH({ navigation, route }) {
           <AntDesign name={buttonIsPlaying ? 'pausecircleo' : 'playcircleo'} size={35} color="white" />
         </TouchableOpacity>
         {/* next music */}
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleNext}>
           <AntDesign style={{ right: 20 }} name="stepforward" size={35} color="white" />
         </TouchableOpacity>
         <TouchableOpacity>
