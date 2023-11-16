@@ -11,8 +11,8 @@
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
     "@fortawesome/react-native-fontawesome": "^0.3.0",
-    "@react-native-async-storage/async-storage": "1.18.2",
-    "@react-native-community/slider": "4.4.2",
+    "@react-native-async-storage/async-storage": "^1.18.2",
+    "@react-native-community/slider": "^4.4.2",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.16",
@@ -25,14 +25,15 @@
     "react-native-chart-kit": "^6.12.0",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-slider": "^0.11.0",
-    "react-native-svg": "13.9.0",
+    "react-native-svg": "^13.14.0",
     "react-native-svg-transformer": "^1.1.0",
     "react-native-vector-icons": "^10.0.1",
     "react-native-web": "~0.19.6",
     "unorm": "^1.6.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "json-server": "^0.17.4"
   },
   "private": true,
   "keywords": [],

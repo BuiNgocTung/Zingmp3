@@ -213,8 +213,12 @@ export default function ChiTietBH({ navigation, route }) {
   return (
     <View style={styles.container}>
       <View style={styles.view1}>
-        <TouchableOpacity onPress={() => navigation.goBack({data})} y><AntDesign name="down" size={24} color="white" />
-        </TouchableOpacity>
+      <TouchableOpacity onPress={() => {
+        navigation.navigate('MiniPlay');
+        navigation.goBack({ data });
+        }}>
+  <AntDesign name="down" size={24} color="white" />
+</TouchableOpacity>
         <Text style={styles.text1}>PHÁT TỪ #zingChart</Text>
         <TouchableOpacity>  <AntDesign name="ellipsis1" size={24} color="white" /></TouchableOpacity>
       </View>
