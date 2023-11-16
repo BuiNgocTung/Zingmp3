@@ -19,6 +19,7 @@ import BHYeuThich from "./component/BHYeuThich";
 import Category from "./component/Category";
 import MusicByCategory from "./component/MusicByCategory";
 import ChiTietBH from "./component/ChiTietBH";
+import MiniPlay from "./component/MiniPlay.js";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import { View } from 'react-native-web';
@@ -38,6 +39,7 @@ export default function App() {
         <Stack.Screen name="SignUp" component={SignUp} />
 
         <Stack.Screen name="ChiTietBH" component={ChiTietBH} />
+        {/* <Stack.Screen name="MiniPlay" component={MiniPlay} /> */}
         <Stack.Screen name="Tab" component={TabNavigator} options={{ title: 'Home' }} />
       </Stack.Navigator>
     </NavigationContainer>
@@ -96,6 +98,20 @@ function TabRadio() {
 
   );
 };
+// const MiniPlayer = () => {
+//   return (
+//     <NavigationContainer>
+//       <Tab.Navigator>
+//         <Tab.Screen name="ChiTietBH" component={ChiTietBH} />
+//         <Tab.Screen
+//           name="MiniPlay"
+//           component={MiniPlay} // Đổi tên thành MiniPlayer hoặc tên khác
+//           options={{ tabBarLabel: () => null, tabBarIcon: () => null }}
+//         />
+//       </Tab.Navigator>
+//     </NavigationContainer>
+//   );
+// };
 
 function TabUser() {
   return (
