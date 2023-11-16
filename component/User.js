@@ -25,7 +25,7 @@ export default function App({ navigation, route }) {
             </View>
             <View style={{ alignItems: 'center', justifyContent: 'center', paddingTop: 55 }}>
                 <Image source={userImage} style={{ width: 80, height: 80, borderRadius: 150, paddingLeft: 10 }} />
-                <Text style={{ fontSize: 27, margin: 10 }}> Tung</Text>
+                <Text style={{ fontSize: 27, margin: 10 }}> {user.username}</Text>
             </View>
             {/* upgrade */}
             <View style={{ alignItems: 'center' }}>
