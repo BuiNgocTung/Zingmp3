@@ -3,7 +3,9 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView }
 import React, { useEffect, useState } from 'react';
 import { Ionicons, MaterialCommunityIcons, Entypo } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-export default function BHYeuThich({ navigation,route }) {
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+export default function BHYeuThich({ navigation, route }) {
     const { user } = route.params || {};
 
     const [favoriteSongs, setFavoriteSongs] = useState([]);
@@ -67,10 +69,10 @@ export default function BHYeuThich({ navigation,route }) {
 
             <View style={styles.body2}>
                 <Text style={styles.text1}>Bài hát yêu thích</Text>
-                <Text style={styles.text2}>77 bài hát . Đã lưu vào thư viện</Text>
+                <Text style={styles.text2}>{user.favoriteSongs.length} bài hát . Đã lưu vào thư viện</Text>
                 <TouchableOpacity style={styles.tou1} onPress={handleRandomSongPress}>
                     <Text style={styles.text3}> PHÁT NGẪU NHIÊN</Text>
-                  
+
                 </TouchableOpacity>
             </View>
 
@@ -80,12 +82,13 @@ export default function BHYeuThich({ navigation,route }) {
             </View>
 
             <View style={styles.body4}>
-                <ScrollView>
-                    <FlatList
-                        data={favoriteSongs}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity style={styles.body5} onPress={() => handleSongPress(item.id)}>
+                {user.favoriteSongs.length > 0 ? (
+                    <ScrollView>
+                        <FlatList
+                            data={favoriteSongs}
+                            keyExtractor={(item) => item.id.toString()}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity style={styles.body5} onPress={() => handleSongPress(item.id)}>
                                 <Image style={styles.img2} source={{ uri: item.img }} />
                                 <View style={styles.body6}>
                                     <Text style={styles.text5}>{item.title}</Text>
@@ -94,8 +97,19 @@ export default function BHYeuThich({ navigation,route }) {
                                 <Ionicons style={{ right: 5, top: 5 }} name="heart" size={24} color="#8B3DF0" />
                                 <MaterialCommunityIcons style={{ top: 5, left: 5 }} name="dots-horizontal" size={24} color="black" />
                             </TouchableOpacity>
-                        )} />
-                </ScrollView>
+                            )}
+                        />
+                    </ScrollView>
+                ) : (
+                    <View style={styles.noSongsContainer}>
+                        <View style={{
+                            justifyContent: 'center', alignItems: 'center',
+                            borderWidth: 1, borderColor: 'gray', width: 40, height: 40, borderRadius: 10
+                        }}>
+                            <Icon name='music' size={20} /></View>
+                        <Text style={styles.noSongsText}>Không có bài hát nào</Text>
+                    </View>
+                )}
             </View>
 
 
@@ -188,6 +202,14 @@ const styles = StyleSheet.create({
     text5: {
         fontSize: 14,
         padding: 3
-    }
+    },
+    noSongsText: {
+        fontSize: 15,
+        fontWeight: '500',
 
+    },
+    noSongsContainer: {
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
 });

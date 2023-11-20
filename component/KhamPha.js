@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function App({ navigation,route }) {
@@ -31,6 +31,36 @@ export default function App({ navigation,route }) {
   ];
 
 
+    //list bai hat đề cử
+    const [randomData, setRandomData] = useState([]);
+
+    useEffect(() => {
+        // Gửi yêu cầu GET đến API
+        fetch('http://localhost:3001/song')
+            .then(response => response.json())
+            .then(result => {
+                // Khởi tạo một Set để lưu trữ các chỉ mục đã chọn
+                const randomIndexes = new Set();
+                const randomSongs = [];
+                const maxRandomItems = 5; // Số lượng phần tử ngẫu nhiên cần lấy
+      
+                // Lặp để chọn các chỉ mục ngẫu nhiên không trùng lặp
+                while (randomIndexes.size < maxRandomItems) {
+                    const randomIndex = Math.floor(Math.random() * result.length);
+                    randomIndexes.add(randomIndex);
+                }
+      
+                // Lấy các phần tử từ chỉ mục đã chọn
+                randomIndexes.forEach(index => {
+                    randomSongs.push(result[index]);
+                });
+      
+                setRandomData(randomSongs);
+            })
+            .catch(error => {
+                console.error('Lỗi khi lấy dữ liệu từ API', error);
+            });
+      }, []);
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -126,14 +156,14 @@ export default function App({ navigation,route }) {
         {/* Danh sách có thể bạn muốn nghe */}
         <View style={styles.recentMusicContainer}>
           <Text style={styles.recentMusicTitle}>Có thể bạn muốn nghe</Text>
-          <FlatList
+          <FlatList 
             horizontal={true}
-            data={recentMusicData}
+            data={randomData}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity style={styles.recentMusicItem}>
-                <Image source={item.image} style={[styles.recentMusicImage, { width: 160, height: 165, }]} />
-                <Text>{item.name}</Text>
+                <Image source={item.img} style={[styles.recentMusicImage, { width: 160, height: 165, }]} />
+                <Text>{item.title}</Text>
               </TouchableOpacity>
             )} />
         </View>
@@ -206,20 +236,23 @@ const styles = StyleSheet.create({
   recentMusicTitle: {
     fontSize: 21,
     fontWeight: '700',
-
+    marginBottom:20
   },
   recentMusicItem: {
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    height: 220,
+    width:170,
+    marginRight:20
 
-  },
+},
+
   recentMusicImage: {
-    marginRight: 20,
-
-    borderRadius: 30,
-    borderColor: '#DAC6C6',
-    borderWidth: 1,
-    backgroundColor: '#FFF',
+    marginRight:10,
+  borderRadius: 30,
+  borderColor: '#DAC6C6',
+  borderWidth: 1,
+  backgroundColor: '#FFF',
     shadowColor: 'rgba(0, 0, 0, 0.25)',
     shadowOffset: {
       width: 0,

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function ThuVien({ navigation, route }) {
@@ -9,29 +9,18 @@ export default function ThuVien({ navigation, route }) {
   const userImage = user && user.img ? { uri: user.img } : require('../img/user/user.png');
 
   
-  const recentMusicData = [
-    {
-      id: 0,
-      category: "ballad",
-      name: "Gương Mặt Lạ Lẩm",
-      image: require("../img/list/GuongMatLaLam.jpg"),
-      time: '5:34',
-    },
-    {
-      id: 1,
-      category: "ballad",
-      name: "Hết Thương cạn nhớ",
-      image: require("../img/list/HetThuongCanNho.jpg"),
-      time: '4:44',
-    },
-    {
-      id: 2,
-      category: "ballad",
-      name: "Hết Thương cạn nhớ",
-      image: require("../img/list/HetThuongCanNho.jpg"),
-      time: '4:44',
-    },
-  ];
+  const [data, setData] = useState([]);
+  useEffect(() => {
+      // Gửi yêu cầu GET đến API
+      fetch('http://localhost:3001/song')
+          .then(response => response.json())
+          .then(result => {
+              setData(result);
+          })
+          .catch(error => {
+              console.error('Lỗi khi lấy dữ liệu từ API', error);
+          });
+  }, []);
 
   const [selectedTab, setSelectedTab] = useState('Playlist');
   const [showAdditionalButtons, setShowAdditionalButtons] = useState(true);
@@ -81,7 +70,7 @@ export default function ThuVien({ navigation, route }) {
             <View style={styles.upgradeItem}>
               <Image source={require('../icon/library/favorite.png')} style={styles.favoriteIcon} />
               <Text style={styles.upgradeText}>Bài hát yêu thích</Text>
-              <Text style={styles.upgradeCount}>77</Text>
+              <Text style={styles.upgradeCount}>{user.favoriteSongs.length}</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity>
@@ -98,12 +87,12 @@ export default function ThuVien({ navigation, route }) {
           <Text style={styles.recentMusicTitle}>Nghe gần đây</Text>
           <FlatList
             horizontal={true}
-            data={recentMusicData}
+            data={data.slice(0,4)}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity style={styles.recentMusicItem}>
-                <Image source={item.image} style={styles.recentMusicImage} />
-                <Text>{item.name}</Text>
+                <Image source={item.img} style={styles.recentMusicImage} />
+                <Text>{item.title}</Text>
               </TouchableOpacity>
             )}
           />
@@ -265,13 +254,18 @@ const styles = StyleSheet.create({
   recentMusicTitle: {
     fontSize: 21,
     fontWeight: '700',
+    marginBottom:20
   },
   recentMusicItem: {
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    height: 220,
+    width:180,
+    marginRight:20
   
   },
   recentMusicImage: {
+    marginBottom:10,
     marginRight:20,
     width: 160,
     height: 165,
