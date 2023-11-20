@@ -2,127 +2,35 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Image, TextInput, TouchableOpacity, FlatList, ScrollView, Animated } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Ionicons, MaterialCommunityIcons, Entypo } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function MusicByCategory({ navigation, route }) {
     const categoryImage = route.params.categoryImage;
-    const data = [
-        {
-            id: '0',
-            image: require('../img/BHYeuThich/Rectangle 18.png'),
-            name: 'Gương Mặt Lạ Lẫm',
-            category: 'Trữ tình',
-            tg: 'Mr. Siro'
+    const categoryID = route.params.categoryID;
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        // Gửi yêu cầu GET đến API
+        fetch('http://localhost:3001/song')
+            .then(response => response.json())
+            .then(result => {
+                setData(result);
+            })
+            .catch(error => {
+                console.error('Lỗi khi lấy dữ liệu từ API', error);
+            });
+    }, []);
+    const handleRandomSongPress = async () => {
+        // Get a random song ID from the data array
+        const randomIndex = Math.floor(Math.random() * data.length);
+        const randomSongId = data[randomIndex].id;
 
-        },
-        {
-            id: '1',
-            image: require('../img/BHYeuThich/Rectangle 19.png'),
-            name: 'Hết Thương Cạn Nhớ',
-            category: 'Trữ tình',
-            tg: 'Đức Phúc'
+        // Save audio state to AsyncStorage
+        await AsyncStorage.setItem('audioState', JSON.stringify({ currentPosition: 0, isPlaying: true }));
 
-        },
-        {
-            id: '2',
-            image: require('../img/BHYeuThich/Rectangle 20.png'),
-            name: 'Còn Gì Đau Hơn Chữ Đã Từng',
-            category: 'Ballad',
-            tg: 'Quân A.P'
-
-        },
-        {
-            id: '3',
-            image: require('../img/BHYeuThich/Rectangle 21.png'),
-            name: 'Là Bạn Không Thể Yêu',
-            category: 'Ballad',
-            tg: 'Lou Hoàng'
-
-        },
-        {
-            id: '4',
-            image: require('../img/BHYeuThich/Rectangle 22.png'),
-            name: 'Bước Qua Đời Nhau',
-            category: 'Remix',
-            tg: 'Lê Bảo Bình'
-
-        },
-        {
-            id: '5',
-            image: require('../img/BHYeuThich/Rectangle 23.png'),
-            name: 'Lời Yêu Ngây Dại',
-            category: 'Trữ tình',
-            tg: 'Mr. Siro'
-
-        },
-        {
-            id: '6',
-            image: require('../img/BHYeuThich/Rectangle 24.png'),
-            name: 'Buồn Làm Chi Em Ơi',
-            category: 'Trữ tình',
-            tg: 'Trịnh Đình Quang'
-
-        },
-        {
-            id: '7',
-            image: require('../img/BHYeuThich/Rectangle 25.png'),
-            name: 'Gương Mặt Lạ Lẫm',
-            category: 'Trữ tình',
-            tg: 'Mr. Siro'
-
-        }
-
-        ,
-        {
-            id: '8',
-            image: require('../img/BHYeuThich/Rectangle 23.png'),
-            name: 'Lời Yêu Ngây Dại',
-            category: 'Trữ tình',
-            tg: 'Mr. Siro'
-
-        },
-        {
-            id: '9',
-            image: require('../img/BHYeuThich/Rectangle 24.png'),
-            name: 'Buồn Làm Chi Em Ơi',
-            category: 'Trữ tình',
-            tg: 'Trịnh Đình Quang'
-
-        },
-        {
-            id: '10',
-            image: require('../img/BHYeuThich/Rectangle 25.png'),
-            name: 'Gương Mặt Lạ Lẫm',
-            category: 'Trữ tình',
-            tg: 'Mr. Siro'
-
-        }
-        ,
-        {
-            id: '11',
-            image: require('../img/BHYeuThich/Rectangle 23.png'),
-            name: 'Lời Yêu Ngây Dại',
-            category: 'Trữ tình',
-            tg: 'Mr. Siro'
-
-        },
-        {
-            id: '12',
-            image: require('../img/BHYeuThich/Rectangle 24.png'),
-            name: 'Buồn Làm Chi Em Ơi',
-            category: 'Trữ tình',
-            tg: 'Trịnh Đình Quang'
-
-        },
-        {
-            id: '13',
-            image: require('../img/BHYeuThich/Rectangle 25.png'),
-            name: 'Gương Mặt Lạ Lẫm',
-            category: 'Trữ tình',
-            tg: 'Mr. Siro'
-
-        }
-    ];
-    const category = route.params.category;
-    const filteredData = data.filter(item => item.category.toLowerCase() === category.toLowerCase());
+        // Navigate to ChiTietBH with the random song ID
+        navigation.navigate('ChiTietBH', { songId: randomSongId, data: data });
+    };
+    const filteredData = data.filter(item => item.categoryID === categoryID);
     return (
         <View style={styles.container}>
             <View style={styles.body1}>
@@ -137,17 +45,10 @@ export default function MusicByCategory({ navigation, route }) {
 
             <View style={styles.body2}>
 
-                <TouchableOpacity style={styles.tou1}>
+                <TouchableOpacity style={styles.tou1} onPress={handleRandomSongPress}>
                     <Text style={styles.text3}> PHÁT NGẪU NHIÊN</Text>
                 </TouchableOpacity>
             </View>
-
-
-
-
-         
-
-
 
             <ScrollView>
             <View style={{ marginTop: 50 }}>
@@ -156,15 +57,16 @@ export default function MusicByCategory({ navigation, route }) {
                     data={filteredData}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
-                        <TouchableOpacity style={styles.recentMusicItem}>
+                        <TouchableOpacity style={styles.recentMusicItem} 
+                        onPress={()=> {navigation.navigate("ChiTietBH",{ songId: item.id,data:filteredData})}}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Image source={item.image} style={styles.recentMusicImage} />
+                                    <Image source={item.img} style={styles.recentMusicImage} />
 
                                     <View>
-                                        <Text style={{ fontSize: 13, fontWeight: '700' }}>{item.name}</Text>
-                                        <Text>{item.tg}</Text>
+                                        <Text style={{ fontSize: 13, fontWeight: '700' }}>{item.title}</Text>
+                                        <Text>{item.artist}</Text>
                                     </View>
                                 </View>
                                   <TouchableOpacity>

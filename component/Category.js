@@ -1,41 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { View, SafeAreaView, StyleSheet, TouchableOpacity, Text, FlatList, ScrollView, Image, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function Category({ navigation }) {
   const [searchText, setSearchText] = useState('');
-  const data = [
-    {
-      id: '0',
-      image: require('../img/category/TruTinh.jpg'),
-      category: 'Trữ tình',
-    },
-    {
-      id: '1',
-      image: require('../img/category/Ballad.jpg'),
-      category: 'Ballad',
-    },
-    {
-      id: '2',
-      image: require('../img/category/Remix.jpg'),
-      category: 'Remix',
-    },
-    {
-      id: '3',
-      image: require('../img/category/CoDien.jpg'),
-      category: 'Nhạc cổ điển',
-    },
-    {
-      id: '4',
-      image: require('../img/category/NhacKhongLoi.jpg'),
-      category: 'Nhạc không lời',
-    },
-    {
-      id: '5',
-      image: require('../img/category/NhacPhim.jpg'),
-      category: 'Nhạc phim',
-    },
-  ];
+  const [data, setData] = useState([]);
+  useEffect(() => {
+      // Gửi yêu cầu GET đến API
+      fetch('http://localhost:3001/categories')
+          .then(response => response.json())
+          .then(result => {
+              setData(result);
+          })
+          .catch(error => {
+              console.error('Lỗi khi lấy dữ liệu từ API', error);
+          });
+  }, []);
+
 
   const filteredData = data.filter(item => item.category.toLowerCase().includes(searchText.toLowerCase()));
 
@@ -65,15 +46,15 @@ export default function Category({ navigation }) {
         <ScrollView>
           <FlatList
             data={filteredData}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item.categoryID.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={{ margin: 10, marginLeft: 20, justifyContent: 'center', alignItems: 'center' }}
                 onPress={() => {
-                  navigation.navigate('MusicByCategory', { categoryImage: item.image, category: item.category });
+                  navigation.navigate('MusicByCategory', { categoryImage: item.img, categoryID: item.categoryID });
                 }}
               >
-                <Image source={item.image} style={{ width: 155, height: 100, borderRadius: 10 }} />
+                <Image source={item.img} style={{ width: 155, height: 100, borderRadius: 10 }} />
                 <Text style={{ position: 'absolute', fontWeight: '700', fontSize: 13, color: 'white' }}>
                   {item.category.toUpperCase()}
                 </Text>
