@@ -214,8 +214,8 @@ export default function ChiTietBH({ navigation, route }) {
     <View style={styles.container}>
       <View style={styles.view1}>
       <TouchableOpacity onPress={() => {
-        navigation.navigate('MiniPlay');
-        navigation.goBack({ data });
+      
+        navigation.goBack();
         }}>
   <AntDesign name="down" size={24} color="white" />
 </TouchableOpacity>
