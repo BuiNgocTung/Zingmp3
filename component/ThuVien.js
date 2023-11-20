@@ -145,7 +145,6 @@ export default function ThuVien({ navigation, route }) {
             </TouchableOpacity>
           </View>
         )}
-
         {/* Thông báo khi chưa có playlist */}
         {showAdditionalButtons==false && (
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
