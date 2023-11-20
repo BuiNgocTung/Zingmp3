@@ -1,37 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import unorm from 'unorm';
 export default function App({ navigation }) {
-    const recentMusicData = [
-        {
-            id: 0,
-            category: "ballad",
-            name: "Gương Mặt Lạ Lẩm",
-            singer: 'Mr Siro',
-            image: require("../img/list/GuongMatLaLam.jpg"),
-            time: '5:34',
-        },
-        {
-            id: 1,
-            category: "ballad",
-            name: "Hết Thương cạn nhớ",
-            singer: 'Đức Phúc',
-            image: require("../img/list/HetThuongCanNho.jpg"),
-            time: '4:44',
-        },
-        {
-            id: 2,
-            category: "ballad",
-            name: "Hết Thương cạn nhớ",
-            singer: 'Đức Phúc',
-            image: require("../img/list/HetThuongCanNho.jpg"),
-            time: '4:44',
-        },
-    ];
+    const [recentMusicData, setData] = useState([]);
+    useEffect(() => {
+        // Gửi yêu cầu GET đến API
+        fetch('http://localhost:3001/song')
+            .then(response => response.json())
+            .then(result => {
+                setData(result);
+            })
+            .catch(error => {
+                console.error('Lỗi khi lấy dữ liệu từ API', error);
+            });
+    }, []);
     const [filteredMusic, setFilteredMusic] = useState([]);
         
     const handleSearchName = (text) => {
@@ -41,7 +27,7 @@ export default function App({ navigation }) {
             setFilteredMusic([]);
         } else {
             const fillMusic = recentMusicData.filter(item =>
-                item.name.toLowerCase().includes(text.toLowerCase())
+                item.title.toLowerCase().includes(text.toLowerCase())
             );
             setFilteredMusic(fillMusic.slice(0, 4));
         }
@@ -77,11 +63,11 @@ export default function App({ navigation }) {
                                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
 
                                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Image source={item.image} style={styles.recentMusicImage} />
+                                            <Image source={item.img} style={styles.recentMusicImage} />
 
                                             <View>
-                                                <Text style={{ fontSize: 13, fontWeight: '700' }}>{item.name}</Text>
-                                                <Text>{item.singer}</Text>
+                                                <Text style={{ fontSize: 13, fontWeight: '700' }}>{item.title}</Text>
+                                                <Text>{item.artist}</Text>
                                             </View>
                                         </View>
 

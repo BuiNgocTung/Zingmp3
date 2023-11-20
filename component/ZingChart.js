@@ -3,93 +3,23 @@ import { View, StyleSheet, Image, TouchableOpacity, TextInput, FlatList, Text, S
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Chart from '../component/Chart'
-export default function ZingChart({ navigation,route }) {
+export default function ZingChart({ navigation, route }) {
   const { user } = route.params || {};
   const userImage = user && user.img ? { uri: user.img } : require('../img/user/user.png');
 
-  const recentMusicData = [
-    {
-      id: 0,
-      image: require('../img/BHYeuThich/Rectangle 18.png'),
-      name: 'Gương Mặt Lạ Lẫm',
-      tg: 'Mr. Siro'
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    // Gửi yêu cầu GET đến API
+    fetch('http://localhost:3001/song')
+      .then(response => response.json())
+      .then(result => {
+        setData(result);
+      })
+      .catch(error => {
+        console.error('Lỗi khi lấy dữ liệu từ API', error);
+      });
+  }, []);
 
-    },
-    {
-      id: 1,
-      image: require('../img/BHYeuThich/Rectangle 19.png'),
-      name: 'Hết Thương Cạn Nhớ',
-      tg: 'Đức Phúc'
-
-    },
-    {
-      id: 2,
-      image: require('../img/BHYeuThich/Rectangle 20.png'),
-      name: 'Còn Gì Đau Hơn Chữ Đã Từng',
-      tg: 'Quân A.P'
-
-    },
-    {
-      id: 3,
-      image: require('../img/BHYeuThich/Rectangle 21.png'),
-      name: 'Là Bạn Không Thể Yêu',
-      tg: 'Lou Hoàng'
-
-    },
-    {
-      id: 4,
-      image: require('../img/BHYeuThich/Rectangle 22.png'),
-      name: 'Bước Qua Đời Nhau',
-      tg: 'Lê Bảo Bình'
-
-    },
-    {
-      id: 5,
-      image: require('../img/BHYeuThich/Rectangle 23.png'),
-      name: 'Lời Yêu Ngây Dại',
-      tg: 'Mr. Siro'
-
-    },
-    {
-      id: 6,
-      image: require('../img/BHYeuThich/Rectangle 24.png'),
-      name: 'Buồn Làm Chi Em Ơi',
-      tg: 'Trịnh Đình Quang'
-
-    },
-    {
-      id: 7,
-      image: require('../img/BHYeuThich/Rectangle 25.png'),
-      name: 'Gương Mặt Lạ Lẫm',
-      tg: 'Mr. Siro'
-
-    }
-
-    ,
-    {
-      id: 8,
-      image: require('../img/BHYeuThich/Rectangle 23.png'),
-      name: 'Lời Yêu Ngây Dại',
-      tg: 'Mr. Siro'
-
-    },
-    {
-      id: 9,
-      image: require('../img/BHYeuThich/Rectangle 24.png'),
-      name: 'Buồn Làm Chi Em Ơi',
-      tg: 'Trịnh Đình Quang'
-
-    },
-    {
-      id: 10,
-      image: require('../img/BHYeuThich/Rectangle 25.png'),
-      name: 'Gương Mặt Lạ Lẫm',
-      tg: 'Mr. Siro'
-
-    }
-    ,
-
-  ];
 
   return (
     <ScrollView>
@@ -134,21 +64,22 @@ export default function ZingChart({ navigation,route }) {
         }}>
           <View style={{ marginTop: 5 }}>
             <FlatList
-              data={recentMusicData.slice(0,10)}
+              data={data.slice(0, 10)}
               keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (
                 <View style={{ justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center', }}>
                   <Text style={{ fontWeight: '700', fontSize: 23, color: 'white' }}>{item.id + 1}</Text>
-                  <TouchableOpacity style={styles.recentMusicItem}>
+                  <TouchableOpacity style={styles.recentMusicItem}
+                    onPress={() => { navigation.navigate("ChiTietBH", { songId: item.id, data: data }) }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
 
 
                       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Image source={item.image} style={styles.recentMusicImage} />
+                        <Image source={item.img} style={styles.recentMusicImage} />
 
                         <View>
-                          <Text style={{ fontSize: 13, fontWeight: '700' }}>{item.name}</Text>
-                          <Text>{item.tg}</Text>
+                          <Text style={{ fontSize: 13, fontWeight: '700' }}>{item.title}</Text>
+                          <Text>{item.artist}</Text>
                         </View>
                       </View>
                     </View>
@@ -236,7 +167,7 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 4 },
     textShadowRadius: 4,
     letterSpacing: 1.25,
-  
+
     // Add any other styles you need for your text
   },
 });
