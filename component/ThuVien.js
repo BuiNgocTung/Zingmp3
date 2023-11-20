@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function ThuVien({ navigation, route }) {
   const { user } = route.params || {};
+  
   const userImage = user && user.img ? { uri: user.img } : require('../img/user/user.png');
 
   
@@ -63,6 +64,7 @@ export default function ThuVien({ navigation, route }) {
             </TouchableOpacity>
             
             <Icon name='microphone' style={styles.microphoneIcon} size={20} />
+           
           </View>
 
           <TouchableOpacity onPress={() => { navigation.navigate("Setting") }}>
@@ -75,7 +77,7 @@ export default function ThuVien({ navigation, route }) {
 
         {/* Phần nút "Bài hát yêu thích" và "Đã tải" */}
         <View style={styles.upgradeContainer}>
-          <TouchableOpacity onPress={()=>{navigation.navigate("BHYeuThich")}}>
+          <TouchableOpacity onPress={()=>{navigation.navigate("BHYeuThich",{user:user})}}>
             <View style={styles.upgradeItem}>
               <Image source={require('../icon/library/favorite.png')} style={styles.favoriteIcon} />
               <Text style={styles.upgradeText}>Bài hát yêu thích</Text>

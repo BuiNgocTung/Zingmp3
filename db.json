@@ -21,13 +21,15 @@
       "id": 0,
       "username": "Duong",
       "password": "123",
-      "img": "https://res.cloudinary.com/dpxgh1qfh/image/upload/v1699622450/duong_ntrorq.png"
+      "img": "https://res.cloudinary.com/dpxgh1qfh/image/upload/v1699622450/duong_ntrorq.png",
+      "favoriteSongs": [0, 2, 4] 
     },
     {
       "id": 1,
       "username": "Tung",
       "password": "456",
-      "img": "https://res.cloudinary.com/dpxgh1qfh/image/upload/v1699622313/tung_vriyd5.jpg"
+      "img": "https://res.cloudinary.com/dpxgh1qfh/image/upload/v1699622313/tung_vriyd5.jpg",
+      "favoriteSongs": [1, 3,8,9]
     },
     {
       "username": "An",
