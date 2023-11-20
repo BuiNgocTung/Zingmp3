@@ -52,6 +52,12 @@
       "password": "123",
       "img": "",
       "id": 5
+    },
+    {
+      "username": "Duy",
+      "password": "123",
+      "img": "",
+      "id": 6
     }
   ],
   "song": [
