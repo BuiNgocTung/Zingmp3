@@ -38,6 +38,38 @@ export default function ZingChart({ navigation, route }) {
   const handleResetData = () => {
     setShowAll(false); // Reset trạng thái hiển thị danh sách về ban đầu
   };
+  const handUpdateCurrentTime = async (songId) => {
+    try {
+   
+      // Gửi yêu cầu cập nhật currentTime cho bài hát có id là songId
+      const updateSongResponse = await fetch(`http://localhost:3001/song/${songId}`, {
+        method: 'PATCH', // Hoặc PATCH tùy thuộc vào thiết kế API của bạn
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currentTime: new Date().toLocaleString(), // Cập nhật currentTime
+        }),
+      });
+  
+      if (updateSongResponse.status === 200) {
+        // Cập nhật thành công trên server, tiến hành cập nhật trạng thái local
+        const updatedSongList = data.map(song => {
+          if (song.id === songId) {
+            return { ...song, currentTime: new Date().toLocaleString() };
+          }
+          return song;
+        });
+  
+        // Cập nhật trạng thái dữ liệu local với thông tin mới
+        setData(updatedSongList);
+      } else {
+        // Xử lý khi cập nhật thất bại trên server
+      }
+    } catch (error) {
+      console.error('Lỗi khi cập nhật currentTime cho bài hát:', error);
+    }
+  };
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -87,7 +119,7 @@ export default function ZingChart({ navigation, route }) {
                 <View style={{ justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center', }}>
                   <Text style={{ fontWeight: '700', fontSize: 23, color: 'white' }}>{item.id + 1}</Text>
                   <TouchableOpacity style={styles.recentMusicItem}
-                    onPress={() => { navigation.navigate("ChiTietBH", { songId: item.id, data: data }) }}>
+                    onPress={() => {handUpdateCurrentTime(item.id), navigation.navigate("ChiTietBH", { songId: item.id, data: data }) }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
 
 

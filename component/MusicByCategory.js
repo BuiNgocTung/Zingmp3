@@ -21,16 +21,50 @@ export default function MusicByCategory({ navigation, route }) {
     }, []);
     const handleRandomSongPress = async () => {
         // Get a random song ID from the data array
-        const randomIndex = Math.floor(Math.random() * data.length);
-        const randomSongId = data[randomIndex].id;
+        const randomIndex = Math.floor(Math.random() * filteredData.length);
+        const randomSongId = filteredData[randomIndex].id;
 
         // Save audio state to AsyncStorage
         await AsyncStorage.setItem('audioState', JSON.stringify({ currentPosition: 0, isPlaying: true }));
 
         // Navigate to ChiTietBH with the random song ID
+        handUpdateCurrentTime(randomSongId)
         navigation.navigate('ChiTietBH', { songId: randomSongId, data: data });
     };
     const filteredData = data.filter(item => item.categoryID === categoryID);
+
+    const handUpdateCurrentTime = async (songId) => {
+        try {
+       
+          // Gửi yêu cầu cập nhật currentTime cho bài hát có id là songId
+          const updateSongResponse = await fetch(`http://localhost:3001/song/${songId}`, {
+            method: 'PATCH', // Hoặc PATCH tùy thuộc vào thiết kế API của bạn
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              currentTime: new Date().toLocaleString(), // Cập nhật currentTime
+            }),
+          });
+      
+          if (updateSongResponse.status === 200) {
+            // Cập nhật thành công trên server, tiến hành cập nhật trạng thái local
+            const updatedSongList = data.map(song => {
+              if (song.id === songId) {
+                return { ...song, currentTime: new Date().toLocaleString() };
+              }
+              return song;
+            });
+      
+            // Cập nhật trạng thái dữ liệu local với thông tin mới
+            setData(updatedSongList);
+          } else {
+            // Xử lý khi cập nhật thất bại trên server
+          }
+        } catch (error) {
+          console.error('Lỗi khi cập nhật currentTime cho bài hát:', error);
+        }
+      };
     return (
         <View style={styles.container}>
             <View style={styles.body1}>
@@ -58,7 +92,7 @@ export default function MusicByCategory({ navigation, route }) {
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
                         <TouchableOpacity style={styles.recentMusicItem} 
-                        onPress={()=> {navigation.navigate("ChiTietBH",{ songId: item.id,data:filteredData})}}>
+                        onPress={()=> {handUpdateCurrentTime(item.id),navigation.navigate("ChiTietBH",{ songId: item.id,data:filteredData})}}>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
