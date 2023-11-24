@@ -6,29 +6,41 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default function App({ navigation,route }) {
   const { user } = route.params || {};
   const userImage = user && user.img ? { uri: user.img } : require('../img/user/user.png');
-  const recentMusicData = [
-    {
-      id: 0,
-      category: "ballad",
-      name: "Gương Mặt Lạ Lẩm",
-      image: require("../img/list/GuongMatLaLam.jpg"),
-      time: '5:34',
-    },
-    {
-      id: 1,
-      category: "ballad",
-      name: "Hết Thương cạn nhớ",
-      image: require("../img/list/HetThuongCanNho.jpg"),
-      time: '4:44',
-    },
-    {
-      id: 2,
-      category: "ballad",
-      name: "Hết Thương cạn nhớ",
-      image: require("../img/list/HetThuongCanNho.jpg"),
-      time: '4:44',
-    },
-  ];
+  
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch('http://localhost:3001/song')
+      .then(response => response.json())
+      .then(result => {
+        // Sắp xếp các bài hát theo thời gian nghe gần nhất
+        const sortedSongs = result.sort((a, b) => {
+          // Chuyển đổi thời gian nghe sang đối tượng Date để so sánh
+          const timeA = new Date(parseCustomDate(a.currentTime));
+          const timeB = new Date(parseCustomDate(b.currentTime));
+  
+          // Sắp xếp theo thứ tự giảm dần, từ gần đây nhất đến xa nhất
+          return timeB - timeA;
+        });
+  
+        // Lấy ra 5 bài hát nghe gần nhất
+        const recentSongs = sortedSongs.slice(0, 10);
+  
+        // Cập nhật trạng thái với danh sách 5 bài hát nghe gần nhất
+        setData(recentSongs);
+      })
+      .catch(error => {
+        console.error('Lỗi khi lấy dữ liệu từ API', error);
+      });
+  }, []);
+  
+  // Phân tích chuỗi thời gian để chuyển đổi thành đối tượng Date
+  const parseCustomDate = (customTime) => {
+    const [time, date] = customTime.split(' ');
+    const [hour, minute, second] = time.split(':');
+    const [day, month, year] = date.split('/');
+  
+    return `${month}/${day}/${year} ${hour}:${minute}:${second}`;
+  };
 
 
     //list bai hat đề cử
@@ -61,6 +73,38 @@ export default function App({ navigation,route }) {
                 console.error('Lỗi khi lấy dữ liệu từ API', error);
             });
       }, []);
+      const handUpdateCurrentTime = async (songId) => {
+        try {
+       
+          // Gửi yêu cầu cập nhật currentTime cho bài hát có id là songId
+          const updateSongResponse = await fetch(`http://localhost:3001/song/${songId}`, {
+            method: 'PATCH', // Hoặc PATCH tùy thuộc vào thiết kế API của bạn
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              currentTime: new Date().toLocaleString(), // Cập nhật currentTime
+            }),
+          });
+      
+          if (updateSongResponse.status === 200) {
+            // Cập nhật thành công trên server, tiến hành cập nhật trạng thái local
+            const updatedSongList = data.map(song => {
+              if (song.id === songId) {
+                return { ...song, currentTime: new Date().toLocaleString() };
+              }
+              return song;
+            });
+      
+            // Cập nhật trạng thái dữ liệu local với thông tin mới
+            setData(updatedSongList);
+          } else {
+            // Xử lý khi cập nhật thất bại trên server
+          }
+        } catch (error) {
+          console.error('Lỗi khi cập nhật currentTime cho bài hát:', error);
+        }
+      };
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -90,7 +134,7 @@ export default function App({ navigation,route }) {
           <Image source={require('../img/khamPha/khamP.png')} style={{ width: 330, height: 164 }} />
         </TouchableOpacity>
         {/* menu icon */}
-        <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop: 20 }}>
+        <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop: 20,marginBottom:20 }}>
         
         <TouchableOpacity style={styles.menuItem}>
             <View style={styles.upgradeItem}>
@@ -129,14 +173,7 @@ export default function App({ navigation,route }) {
             <Text style={{ fontSize: 12 }}>Sự kiện</Text>
           </TouchableOpacity>
 
-          
-
-
-
-
-
-
-
+     
         </View>
 
         {/* Danh sách nhạc nghe gần đây */}
@@ -144,12 +181,14 @@ export default function App({ navigation,route }) {
           <Text style={styles.recentMusicTitle}>Nghe gần đây</Text>
           <FlatList
             horizontal={true}
-            data={recentMusicData}
+            data={data}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-              <TouchableOpacity style={styles.recentMusicItem}>
-                <Image source={item.image} style={[styles.recentMusicImage, { width: 160, height: 165, }]} />
-                <Text>{item.name}</Text>
+              <TouchableOpacity style={styles.recentMusicItem}
+              onPress={()=>{navigation.navigate("ChiTietBH",{data:data,songId:item.id}),handUpdateCurrentTime(item.id) }}>
+
+                <Image source={item.img} style={[styles.recentMusicImage, { width: 160, height: 165, }]} />
+                <Text>{item.title}</Text>
               </TouchableOpacity>
             )} />
         </View>
@@ -161,7 +200,10 @@ export default function App({ navigation,route }) {
             data={randomData}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-              <TouchableOpacity style={styles.recentMusicItem}>
+              <TouchableOpacity style={styles.recentMusicItem} 
+              onPress={()=> {handUpdateCurrentTime(item.id),
+              navigation.navigate("ChiTietBH",{ songId: item.id,data:randomData})}}>
+
                 <Image source={item.img} style={[styles.recentMusicImage, { width: 160, height: 165, }]} />
                 <Text>{item.title}</Text>
               </TouchableOpacity>
@@ -230,7 +272,8 @@ const styles = StyleSheet.create({
     height: 51,
   },
   recentMusicContainer: {
-    margin: 20,
+
+    marginLeft:20
 
   },
   recentMusicTitle: {

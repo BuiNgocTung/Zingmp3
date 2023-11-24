@@ -5,22 +5,44 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function ThuVien({ navigation, route }) {
   const { user } = route.params || {};
-  
+
   const userImage = user && user.img ? { uri: user.img } : require('../img/user/user.png');
 
   
   const [data, setData] = useState([]);
   useEffect(() => {
-      // Gửi yêu cầu GET đến API
-      fetch('http://localhost:3001/song')
-          .then(response => response.json())
-          .then(result => {
-              setData(result);
-          })
-          .catch(error => {
-              console.error('Lỗi khi lấy dữ liệu từ API', error);
-          });
+    fetch('http://localhost:3001/song')
+      .then(response => response.json())
+      .then(result => {
+        // Sắp xếp các bài hát theo thời gian nghe gần nhất
+        const sortedSongs = result.sort((a, b) => {
+          // Chuyển đổi thời gian nghe sang đối tượng Date để so sánh
+          const timeA = new Date(parseCustomDate(a.currentTime));
+          const timeB = new Date(parseCustomDate(b.currentTime));
+  
+          // Sắp xếp theo thứ tự giảm dần, từ gần đây nhất đến xa nhất
+          return timeB - timeA;
+        });
+  
+        // Lấy ra 5 bài hát nghe gần nhất
+        const recentSongs = sortedSongs.slice(0, 10);
+  
+        // Cập nhật trạng thái với danh sách 5 bài hát nghe gần nhất
+        setData(recentSongs);
+      })
+      .catch(error => {
+        console.error('Lỗi khi lấy dữ liệu từ API', error);
+      });
   }, []);
+  
+  // Phân tích chuỗi thời gian để chuyển đổi thành đối tượng Date
+  const parseCustomDate = (customTime) => {
+    const [time, date] = customTime.split(' ');
+    const [hour, minute, second] = time.split(':');
+    const [day, month, year] = date.split('/');
+  
+    return `${month}/${day}/${year} ${hour}:${minute}:${second}`;
+  };
 
   const [selectedTab, setSelectedTab] = useState('Playlist');
   const [showAdditionalButtons, setShowAdditionalButtons] = useState(true);
@@ -34,7 +56,39 @@ export default function ThuVien({ navigation, route }) {
       setShowAdditionalButtons(false);
     }
   };
-
+  const handUpdateCurrentTime = async (songId) => {
+    try {
+   
+      // Gửi yêu cầu cập nhật currentTime cho bài hát có id là songId
+      const updateSongResponse = await fetch(`http://localhost:3001/song/${songId}`, {
+        method: 'PATCH', // Hoặc PATCH tùy thuộc vào thiết kế API của bạn
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currentTime: new Date().toLocaleString(), // Cập nhật currentTime
+        }),
+      });
+  
+      if (updateSongResponse.status === 200) {
+        // Cập nhật thành công trên server, tiến hành cập nhật trạng thái local
+        const updatedSongList = data.map(song => {
+          if (song.id === songId) {
+            return { ...song, currentTime: new Date().toLocaleString() };
+          }
+          return song;
+        });
+  
+        // Cập nhật trạng thái dữ liệu local với thông tin mới
+        setData(updatedSongList);
+      } else {
+        // Xử lý khi cập nhật thất bại trên server
+      }
+    } catch (error) {
+      console.error('Lỗi khi cập nhật currentTime cho bài hát:', error);
+    }
+  };
+  
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -87,10 +141,10 @@ export default function ThuVien({ navigation, route }) {
           <Text style={styles.recentMusicTitle}>Nghe gần đây</Text>
           <FlatList
             horizontal={true}
-            data={data.slice(0,4)}
+            data={data}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-              <TouchableOpacity style={styles.recentMusicItem}>
+              <TouchableOpacity style={styles.recentMusicItem} onPress={()=>{navigation.navigate("ChiTietBH",{data:data,songId:item.id}),handUpdateCurrentTime(item.id) }}>
                 <Image source={item.img} style={styles.recentMusicImage} />
                 <Text>{item.title}</Text>
               </TouchableOpacity>
