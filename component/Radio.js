@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function App({ navigation,route }) {
     const { user } = route.params || {};
@@ -31,43 +31,8 @@ export default function App({ navigation,route }) {
         },
     ]
 
-    const recentMusicData = [
-        {
-            id: 0,
-            category: "ballad",
-            name: "Gương Mặt Lạ Lẩm",
-            image: require("../img/list/GuongMatLaLam.jpg"),
-            time: '5:34',
-        },
-        {
-            id: 1,
-            category: "ballad",
-            name: "Hết Thương cạn nhớ",
-            image: require("../img/list/HetThuongCanNho.jpg"),
-            time: '4:44',
-        },
-        {
-            id: 2,
-            category: "ballad",
-            name: "Hết Thương cạn nhớ",
-            image: require("../img/list/HetThuongCanNho.jpg"),
-            time: '4:44',
-        },
-        {
-            id: 3,
-            category: "ballad",
-            name: "Gương Mặt Lạ Lẩm",
-            image: require("../img/list/GuongMatLaLam.jpg"),
-            time: '5:34',
-        },
-        {
-            id: 4,
-            category: "ballad",
-            name: "Gương Mặt Lạ Lẩm",
-            image: require("../img/list/GuongMatLaLam.jpg"),
-            time: '5:34',
-        },
-    ];
+   
+    
 
     useEffect(() => {
         // Set default selected radio to "Xone"
@@ -77,6 +42,38 @@ export default function App({ navigation,route }) {
     const handleRadioPress = (item) => {
         setSelectedRadio(item);
     };
+
+    //list bai hat đề cử
+    const [randomData, setRandomData] = useState([]);
+
+    useEffect(() => {
+        // Gửi yêu cầu GET đến API
+        fetch('http://localhost:3001/song')
+            .then(response => response.json())
+            .then(result => {
+                // Khởi tạo một Set để lưu trữ các chỉ mục đã chọn
+                const randomIndexes = new Set();
+                const randomSongs = [];
+                const maxRandomItems = 5; // Số lượng phần tử ngẫu nhiên cần lấy
+      
+                // Lặp để chọn các chỉ mục ngẫu nhiên không trùng lặp
+                while (randomIndexes.size < maxRandomItems) {
+                    const randomIndex = Math.floor(Math.random() * result.length);
+                    randomIndexes.add(randomIndex);
+                }
+      
+                // Lấy các phần tử từ chỉ mục đã chọn
+                randomIndexes.forEach(index => {
+                    randomSongs.push(result[index]);
+                });
+      
+                setRandomData(randomSongs);
+            })
+            .catch(error => {
+                console.error('Lỗi khi lấy dữ liệu từ API', error);
+            });
+      }, []);
+    
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -94,11 +91,11 @@ export default function App({ navigation,route }) {
                             <Icon name='search' style={styles.searchIcon} size={20} />
                             <TextInput placeholder='Tìm kiếm bài hát, nghệ sĩ...' style={styles.input} editable={false} />
                         </TouchableOpacity>
-                        <Icon name='microphone' style={styles.microphoneIcon} size={20} />
+                        <Icon name='mic' style={styles.microphoneIcon} size={20} />
                     </View>
 
                     <TouchableOpacity onPress={() => { navigation.navigate("Setting") }}>
-                        <Icon name='gear' size={20} />
+                        <Icon name='settings' size={20} />
                     </TouchableOpacity>
                 </View>
                 {/*  */}
@@ -129,7 +126,6 @@ export default function App({ navigation,route }) {
                                 ]}
                                 onPress={() => handleRadioPress(item)}
                             >
-
                                 <Image source={item.image} style={[styles.recentRadio, { width: 110, height: 115, }]} />
 
                                 <Image source={item.image} style={[{
@@ -158,20 +154,19 @@ export default function App({ navigation,route }) {
 
                     </View>
                 )}
-
                 {/* Danh sách có thể bạn muốn nghe */}
-                <View style={{ margin: 20 }}>
+                <View style={{ margin: 20}}>
+               
                     <Text style={styles.recentMusicTitle}>Có thể bạn muốn nghe</Text>
-                    <FlatList
+                    <FlatList style={{marginTop:20}}
                         horizontal={true}
-                        data={recentMusicData}
+                        data={randomData}
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={({ item }) => (
 
                             <TouchableOpacity style={styles.recentMusicItem}>
-                                <Image source={item.image} style={[styles.recentMusicImage, { width: 120, height: 125, }]} />
-
-                                <Text>{item.name}</Text>
+                                <Image source={item.img} style={[styles.recentMusicImage, { width: 120, height: 125, }]} />
+                                <Text>{item.title}</Text>
                             </TouchableOpacity>
                         )} />
                 </View>
@@ -237,8 +232,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // justifyContent: 'center',
         height: 180,
-        width:120,
-        marginRight:30
+        width:130,
+        marginRight:20
 
     },
     recentRadio: {
@@ -255,7 +250,7 @@ const styles = StyleSheet.create({
     recentMusicImage: {
 
         marginRight:10,
-        borderRadius: 10,
+        borderRadius: 30,
         borderColor: '#DAC6C6',
         borderWidth: 1,
         backgroundColor: '#FFF',

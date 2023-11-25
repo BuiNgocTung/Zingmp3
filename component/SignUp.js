@@ -33,6 +33,7 @@ export default function SignUp({ navigation }) {
           username: username,
           password: password,
           img: '',
+          favoriteSongs: [] 
         }),
       });
   
