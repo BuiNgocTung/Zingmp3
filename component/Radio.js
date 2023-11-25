@@ -73,7 +73,38 @@ export default function App({ navigation,route }) {
                 console.error('Lỗi khi lấy dữ liệu từ API', error);
             });
       }, []);
-    
+      const handUpdateCurrentTime = async (songId) => {
+        try {
+       
+          // Gửi yêu cầu cập nhật currentTime cho bài hát có id là songId
+          const updateSongResponse = await fetch(`http://localhost:3001/song/${songId}`, {
+            method: 'PATCH', // Hoặc PATCH tùy thuộc vào thiết kế API của bạn
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              currentTime: new Date().toLocaleString(), // Cập nhật currentTime
+            }),
+          });
+      
+          if (updateSongResponse.status === 200) {
+            // Cập nhật thành công trên server, tiến hành cập nhật trạng thái local
+            const updatedSongList = data.map(song => {
+              if (song.id === songId) {
+                return { ...song, currentTime: new Date().toLocaleString() };
+              }
+              return song;
+            });
+      
+            // Cập nhật trạng thái dữ liệu local với thông tin mới
+            setData(updatedSongList);
+          } else {
+            // Xử lý khi cập nhật thất bại trên server
+          }
+        } catch (error) {
+          console.error('Lỗi khi cập nhật currentTime cho bài hát:', error);
+        }
+      };
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -164,7 +195,8 @@ export default function App({ navigation,route }) {
                         keyExtractor={(item) => item.id.toString()}
                         renderItem={({ item }) => (
 
-                            <TouchableOpacity style={styles.recentMusicItem}>
+                            <TouchableOpacity style={styles.recentMusicItem}
+                            onPress={()=> {handUpdateCurrentTime(item.id),navigation.navigate("ChiTietBH",{ songId: item.id,data:randomData})}}>
                                 <Image source={item.img} style={[styles.recentMusicImage, { width: 120, height: 125, }]} />
                                 <Text>{item.title}</Text>
                             </TouchableOpacity>

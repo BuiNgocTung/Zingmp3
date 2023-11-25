@@ -47,8 +47,42 @@ export default function BHYeuThich({ navigation, route }) {
         await AsyncStorage.setItem('audioState', JSON.stringify({ currentPosition: 0, isPlaying: true }));
 
         // Navigate to ChiTietBH with the random song ID
+        handUpdateCurrentTime(randomSongId)
         navigation.navigate('ChiTietBH', { songId: randomSongId, data: favoriteSongs });
     };
+    const handUpdateCurrentTime = async (songId) => {
+        try {
+       
+          // Gửi yêu cầu cập nhật currentTime cho bài hát có id là songId
+          const updateSongResponse = await fetch(`http://localhost:3001/song/${songId}`, {
+            method: 'PATCH', // Hoặc PATCH tùy thuộc vào thiết kế API của bạn
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              currentTime: new Date().toLocaleString(), // Cập nhật currentTime
+            }),
+          });
+      
+          if (updateSongResponse.status === 200) {
+            // Cập nhật thành công trên server, tiến hành cập nhật trạng thái local
+            const updatedSongList = data.map(song => {
+              if (song.id === songId) {
+                return { ...song, currentTime: new Date().toLocaleString() };
+              }
+              return song;
+            });
+      
+            // Cập nhật trạng thái dữ liệu local với thông tin mới
+            setData(updatedSongList);
+          } else {
+            // Xử lý khi cập nhật thất bại trên server
+          }
+        } catch (error) {
+          console.error('Lỗi khi cập nhật currentTime cho bài hát:', error);
+        }
+      };
+      
     return (
 
         <View style={styles.container}>
@@ -70,7 +104,7 @@ export default function BHYeuThich({ navigation, route }) {
             <View style={styles.body2}>
                 <Text style={styles.text1}>Bài hát yêu thích</Text>
                 <Text style={styles.text2}>{user.favoriteSongs.length} bài hát . Đã lưu vào thư viện</Text>
-                <TouchableOpacity style={styles.tou1} onPress={handleRandomSongPress}>
+                <TouchableOpacity style={styles.tou1} onPress={handleRandomSongPress }>
                     <Text style={styles.text3}> PHÁT NGẪU NHIÊN</Text>
 
                 </TouchableOpacity>
@@ -88,7 +122,7 @@ export default function BHYeuThich({ navigation, route }) {
                             data={favoriteSongs}
                             keyExtractor={(item) => item.id.toString()}
                             renderItem={({ item }) => (
-                                <TouchableOpacity style={styles.body5} onPress={() => handleSongPress(item.id)}>
+                                <TouchableOpacity style={styles.body5} onPress={() => {handUpdateCurrentTime(item.id),handleSongPress(item.id)}}>
                                 <Image style={styles.img2} source={{ uri: item.img }} />
                                 <View style={styles.body6}>
                                     <Text style={styles.text5}>{item.title}</Text>

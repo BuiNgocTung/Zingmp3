@@ -8,23 +8,72 @@ export default function ZingChart({ navigation, route }) {
   const userImage = user && user.img ? { uri: user.img } : require('../img/user/user.png');
 
   const [data, setData] = useState([]);
+  const [showAll, setShowAll] = useState(false);
+  const [displayData, setDisplayData] = useState([]);
   useEffect(() => {
     // Gửi yêu cầu GET đến API
     fetch('http://localhost:3001/song')
       .then(response => response.json())
       .then(result => {
         setData(result);
+        setDisplayData(result.slice(0, 4));
       })
       .catch(error => {
         console.error('Lỗi khi lấy dữ liệu từ API', error);
       });
   }, []);
 
+  useEffect(() => {
+    // Cập nhật dữ liệu hiển thị dựa trên state showAll
+    if (showAll) {
+      setDisplayData(data); // Hiển thị tất cả dữ liệu
+    } else {
+      setDisplayData(data.slice(0, 10)); // Hiển thị 4 phần tử đầu tiên
+    }
+  }, [showAll, data]);
 
+  const handleShowAll = () => {
+    setShowAll(!showAll); // Khi nhấn vào nút, set showAll thành true để hiển thị tất cả dữ liệu
+  };
+  const handleResetData = () => {
+    setShowAll(false); // Reset trạng thái hiển thị danh sách về ban đầu
+  };
+  const handUpdateCurrentTime = async (songId) => {
+    try {
+   
+      // Gửi yêu cầu cập nhật currentTime cho bài hát có id là songId
+      const updateSongResponse = await fetch(`http://localhost:3001/song/${songId}`, {
+        method: 'PATCH', // Hoặc PATCH tùy thuộc vào thiết kế API của bạn
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currentTime: new Date().toLocaleString(), // Cập nhật currentTime
+        }),
+      });
+  
+      if (updateSongResponse.status === 200) {
+        // Cập nhật thành công trên server, tiến hành cập nhật trạng thái local
+        const updatedSongList = data.map(song => {
+          if (song.id === songId) {
+            return { ...song, currentTime: new Date().toLocaleString() };
+          }
+          return song;
+        });
+  
+        // Cập nhật trạng thái dữ liệu local với thông tin mới
+        setData(updatedSongList);
+      } else {
+        // Xử lý khi cập nhật thất bại trên server
+      }
+    } catch (error) {
+      console.error('Lỗi khi cập nhật currentTime cho bài hát:', error);
+    }
+  };
   return (
     <ScrollView>
       <View style={styles.container}>
-
+  
 
         <View style={styles.header}>
           {/* Thanh header */}
@@ -64,13 +113,13 @@ export default function ZingChart({ navigation, route }) {
         }}>
           <View style={{ marginTop: 5 }}>
             <FlatList
-              data={data.slice(0, 10)}
+              data={displayData}
               keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (
                 <View style={{ justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center', }}>
                   <Text style={{ fontWeight: '700', fontSize: 23, color: 'white' }}>{item.id + 1}</Text>
                   <TouchableOpacity style={styles.recentMusicItem}
-                    onPress={() => { navigation.navigate("ChiTietBH", { songId: item.id, data: data }) }}>
+                    onPress={() => {handUpdateCurrentTime(item.id), navigation.navigate("ChiTietBH", { songId: item.id, data: data }) }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
 
 
@@ -90,8 +139,45 @@ export default function ZingChart({ navigation, route }) {
                   </TouchableOpacity>
 
                 </View>
-
+          
               )} />
+              <View style={{alignItems:'center',justifyContent:'center',height:50}}>
+              {!showAll ? (
+        <TouchableOpacity
+          onPress={ handleShowAll  }
+          style={{
+            borderRadius: 10,
+            height: 20,
+            width: 100,
+            borderWidth: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'row',
+          }}
+        >
+          <Text style={{ fontSize: 12, fontWeight: '700' }}>XEM THÊM</Text>
+          <Icon name="expand-more" size={20} />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          onPress={handleResetData}
+          style={{
+            borderRadius: 10,
+            height: 20,
+            width: 100,
+            borderWidth: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'row',
+          }}
+        >
+          <Text style={{ fontSize: 12, fontWeight: '700' }}>THU GỌN</Text>
+          <Icon name="expand-less" size={20} />
+        </TouchableOpacity>
+      )}
+              </View>
+              
+             
           </View>
 
         </View>
