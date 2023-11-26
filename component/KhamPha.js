@@ -31,7 +31,7 @@ export default function App({ navigation,route }) {
       .catch(error => {
         console.error('Lỗi khi lấy dữ liệu từ API', error);
       });
-  }, []);
+  }, [data]);
   
   // Phân tích chuỗi thời gian để chuyển đổi thành đối tượng Date
   const parseCustomDate = (customTime) => {
