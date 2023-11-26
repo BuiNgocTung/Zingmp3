@@ -67,6 +67,13 @@
       "img": "",
       "favoriteSongs": [],
       "id": 2
+    },
+    {
+      "username": "Teo",
+      "password": "123",
+      "img": "",
+      "favoriteSongs": [],
+      "id": 6
     }
   ],
   "song": [
@@ -137,7 +144,8 @@
       "categoryID": 3,
       "duration": "03:02",
       "img": "https://res.cloudinary.com/dpxgh1qfh/image/upload/v1699954500/song1_guln6c.png",
-      "url": "https://res.cloudinary.com/dpxgh1qfh/video/upload/v1699954682/cat-doi-noi-sau-tang-duy-tan_omcjuz.mp3"
+      "url": "https://res.cloudinary.com/dpxgh1qfh/video/upload/v1699954682/cat-doi-noi-sau-tang-duy-tan_omcjuz.mp3",
+      "currentTime": "16:38:56 26/11/2023"
     },
     {
       "id": 7,
@@ -154,7 +162,7 @@
       "artist": "Cao Thái Sơn",
       "categoryID": 4,
       "duration": "05:56",
-      "currentTime": "14:40:41 26/11/2023",
+      "currentTime": "16:39:36 26/11/2023",
       "img": "https://res.cloudinary.com/dpxgh1qfh/image/upload/v1699954494/song2_mjy86u.png",
       "url": "https://res.cloudinary.com/dpxgh1qfh/video/upload/v1699954966/tat-ca-hoac-khong-la-gi-ca-cao-thai-son_lrrb8r.mp3"
     },
@@ -213,7 +221,7 @@
       "artist": "Thành Đạt",
       "categoryID": 5,
       "duration": "04:42",
-      "currentTime": "14:39:41 26/11/2023",
+      "currentTime": "16:39:52 26/11/2023",
       "img": "https://res.cloudinary.com/dpxgh1qfh/image/upload/v1699954495/song3_iv9rnr.png",
       "url": "https://res.cloudinary.com/dpxgh1qfh/video/upload/v1699954593/ComDoanVien-ThanhDat-8504795_oe7wy1.mp3"
     },
