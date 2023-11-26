@@ -8,7 +8,6 @@ export default function ThuVien({ navigation, route }) {
 
   const userImage = user && user.img ? { uri: user.img } : require('../img/user/user.png');
 
-  
   const [data, setData] = useState([]);
   useEffect(() => {
     fetch('http://localhost:3001/song')
@@ -33,7 +32,7 @@ export default function ThuVien({ navigation, route }) {
       .catch(error => {
         console.error('Lỗi khi lấy dữ liệu từ API', error);
       });
-  }, []);
+  }, [data]);
   
   // Phân tích chuỗi thời gian để chuyển đổi thành đối tượng Date
   const parseCustomDate = (customTime) => {
@@ -144,7 +143,8 @@ export default function ThuVien({ navigation, route }) {
             data={data}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-              <TouchableOpacity style={styles.recentMusicItem} onPress={()=>{navigation.navigate("ChiTietBH",{data:data,songId:item.id}),handUpdateCurrentTime(item.id) }}>
+              <TouchableOpacity style={styles.recentMusicItem}
+               onPress={()=>{navigation.navigate("ChiTietBH",{data:data,songId:item.id}),handUpdateCurrentTime(item.id) }}>
                 <Image source={item.img} style={styles.recentMusicImage} />
                 <Text>{item.title}</Text>
               </TouchableOpacity>
